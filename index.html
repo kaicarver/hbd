@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--
+Display a birthday message for a person using random images from Google Image Search.
+Based on a card for Leonore https://github.com/kaicarver/hbd-leonore
+-->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Happy</title>
+<script src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+google.load('search', '1');
+
+var resultSetSize = 8;
+var searches = new Object(); // associative array of searches
+var bdname = "YOUKNOWWHO";
+
+function searchComplete(searchstr) {
+  var imageSearch = searches[searchstr];
+  // Check that we got results
+  if (imageSearch.results && imageSearch.results.length > 0) {
+    var results = imageSearch.results;
+    // pick a result at random
+    var result = results[Math.floor(Math.random() * results.length)];
+    var contentDiv = document.getElementById('content');
+    // display result image with link to source of the image
+    var s = document.createElement('div');
+    s.setAttribute("class", "letter");
+    var img = document.createElement('img');
+    img.src=result.tbUrl;
+    var link = document.createElement('a');
+    link.href = result.originalContextUrl;
+    link.setAttribute("target", "_blank");
+    link.appendChild(img);
+    s.appendChild(link);
+    contentDiv.appendChild(s);
+  }
+}
+
+function doSearch(searchstr) {
+  if (searches[searchstr] == undefined) {
+    // create an Image Search instance
+    var imageSearch = new google.search.ImageSearch();
+    // set searchComplete as the callback function when search is complete
+    imageSearch.setSearchCompleteCallback(this, searchComplete, [searchstr]);
+    imageSearch.setResultSetSize(resultSetSize);
+    imageSearch.setNoHtmlGeneration();
+    // run the search and save it
+    imageSearch.execute(searchstr);
+    searches[searchstr] = imageSearch;
+  } else {
+    // search was already run, just manage results
+    searchComplete(searchstr);
+  }
+}
+
+function displayMessage() {
+  var contentDiv = document.getElementById('content');
+  var fonts = [ 'font1', 'font2' ];
+  var colors = [ 'color1', 'color2', 'color3', 'color4', 'color5' ];
+  var bgcolors = [ 'bgcolor1', 'bgcolor2', 'bgcolor3', 'bgcolor4', 'bgcolor5' ];
+  contentDiv.innerHTML = '';
+  var letters = "HAPPY".split("");
+  var str = "";
+  for (var i = 0; i < letters.length; i++) {
+    str += '<div class="letter '+fonts[Math.floor(Math.random() * fonts.length)]+' '+colors[Math.floor(Math.random() * colors.length)]+' '+bgcolors[Math.floor(Math.random() * bgcolors.length)]+'">'+letters[i]+'</div>';
+  }
+  contentDiv.innerHTML += str + '<br>';
+  letters = "BIRTHDAY".split("");
+  str = "";
+  for (var i = 0; i < letters.length; i++) {
+    str += '<div class="letter '+fonts[Math.floor(Math.random() * fonts.length)]+' '+colors[Math.floor(Math.random() * colors.length)]+' '+bgcolors[Math.floor(Math.random() * bgcolors.length)]+'">'+letters[i]+'</div>';
+  }
+  contentDiv.innerHTML += str + '<br>';
+  fonts = [ 'font6' ];
+  letters = bdname.split("");
+  str = "";
+  for (var i = 0; i < letters.length; i++) {
+    str += '<div class="letter '+fonts[Math.floor(Math.random() * fonts.length)]+' '+colors[Math.floor(Math.random() * colors.length)]+' '+bgcolors[Math.floor(Math.random() * bgcolors.length)]+'">'+letters[i]+'</div>';
+  }
+  for (var i=1; i <= numBDLetters; i++) {
+    doSearch(document.getElementById('str'+i).value);
+  }
+  contentDiv.innerHTML += '<br>' + str + '<br>';
+  updateLink();
+}
+
+// http://stackoverflow.com/a/1099670/153144
+function getQueryParams(qs) {
+    qs = qs.split("+").join(" ");
+    var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }
+    return params;
+}
+
+function updateLink() {
+  var searchStrings = [];
+  for (var i=1; i <= numBDLetters; i++) {
+    searchStrings.push(document.getElementById('str'+i).value);
+  }  
+  document.getElementById('link').href = makeUrl(searchStrings);
+
+}
+
+function makeUrl(searchStrings, bdname) {
+  var params = [];
+  for (var i=1; i <= numBDLetters; i++) {
+    params.push('s'+i + '=' + searchStrings[i-1]);
+  }
+  params.push('bdname='+bdname);
+  return location.pathname + '?' + params.join('&');
+}
+
+  function makeLink(searchStrings, bdname, label, title) {
+    return '<a href="' + makeUrl(searchStrings, bdname) + '" title="' + title + '" target="_blank">x</a> ';
+}
+
+function onLoad() {
+  var query = getQueryParams(document.location.search);
+  if (query['bdname']) bdname = query['bdname'];
+  var letters = bdname.split("");
+  numBDLetters = bdname.length;
+  if (numBDLetters > 10) numBDLetters = 10; // because haven't made it quite dynamic enough yet
+  for (var i = 1; i <= numBDLetters; i++) {
+    if (query['s'+i])
+      document.getElementById('str'+i).value = query['s'+i];
+    else
+      document.getElementById('str'+i).value = letters[i-1];      
+  }
+  updateLink();
+  document.getElementById('examples').innerHTML = ' ';
+  document.getElementById('examples').innerHTML += makeLink(bdname.split(''), bdname, 'x', "Lettres");
+  document.getElementById('examples').innerHTML += makeLink(['crocodile','hérisson','rhinocéros','iguane','saumon','tapir','ornithorynque','poulpe','hibou','elephant'], bdname, 'x', "Animaux");
+  document.getElementById('examples').innerHTML += makeLink(['Colomb','Homère','Riemann','Iznogoud','Saint-Simon','Tintin','Ovide','Poseidon','Horace','Euler'], bdname, 'x', "Personnages");
+  document.getElementById('examples').innerHTML += makeLink(['coquelicot','hélianthème','rose','iris','saxifrage','tulipe','orchidée','pensée','herbe','edelweiss'], bdname, 'x', "Fleurs");
+  document.getElementById('examples').innerHTML += makeLink(['Cuba','Honduras','Russie','Islande','Suède','Tahiti','Oman','Pérou','Holland','Espagne'], bdname, 'x', "Pays");
+  document.getElementById('examples').innerHTML += ' / <a href="http://www.onelook.com/?w=e*%3Aflower" title="find words with OneLook Dictionary search" target="_blank">Lookup</a>';
+  document.getElementById('examples').innerHTML += ' / <a href="https://github.com/kaicarver/hbd" title="Source code on GitHub" target="_blank">Source</a>';
+  setInterval(displayMessage, 2000);
+  // Include the required Google branding
+  google.search.Search.getBranding('branding');	
+}
+
+google.setOnLoadCallback(onLoad);
+</script>
+<style>
+body { font-family: Arial; border: 0 none; }
+.letter { background-color: pink; display: inline-block; height: 100px; width: 100px; margin: 1px; font-size: 6em; text-shadow: 2px 2px #ffffff; }
+.font1 { font-family: "Times New Roman", Times, serif; }
+.font2 { font-family: Georgia, serif }
+.font3 { font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif }
+.font4 { font-family: Impact, Charcoal, sans-serif }
+.font5 { font-family: "Comic Sans MS", cursive, sans-serif }
+.font6 { font-family: "Courier New", Courier, monospace }
+.color1 { color: green; }
+.color2 { color: pink; }
+.color3 { color: yellow; }
+.color4 { color: red; }
+.color5 { color: blue; }
+.bgcolor1 { background-color: green; }
+.bgcolor2 { background-color: pink; }
+.bgcolor3 { background-color: yellow; }
+.bgcolor4 { background-color: red; }
+.bgcolor5 { background-color: blue; }
+.letter img { width: 100px; height: 100px; }
+#strings { display: none; }
+#content { text-align: center; vertical-align: top; }
+.let { width: 80px; }
+</style>
+</head>
+<body>
+    <div id="strings">
+          <button onclick="document.getElementById('strings').style.display = 'none'; document.getElementById('showstrings').style.display = 'block'">Hide</button>  
+	  <span id="picletters">
+            <input type="text" id="str1" class="let" value="lollipop"/>
+            <input type="text" id="str2" class="let" value="egg"/>
+            <input type="text" id="str3" class="let" value="omo"/>
+            <input type="text" id="str4" class="let" value="nasturtium"/>
+            <input type="text" id="str5" class="let" value="oboe"/>
+            <input type="text" id="str6" class="let" value="robot"/>
+            <input type="text" id="str7" class="let" value="europe"/>
+            <input type="text" id="str8" class="let" value="europe"/>
+            <input type="text" id="str9" class="let" value="europe"/>
+            <input type="text" id="str10" class="let" value="europe"/>
+	  </span>
+	  <a href="" id="link" title="Link to this message for sharing" target="_blank">Link</a>
+	  <span id="examples"></span>
+    </div>
+    <div id="showstrings">
+          <button onclick="document.getElementById('strings').style.display = 'block'; document.getElementById('showstrings').style.display = 'none'">Show</button>
+    </div>
+    <div id="content"></div>
+    <div id="branding"></div>
+  </body>
+</html>
