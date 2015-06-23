@@ -15,6 +15,7 @@ google.load('search', '1');
 var resultSetSize = 8;
 var searches = new Object(); // associative array of searches
 var bdname = "Christophe";
+var defaults = ['coquelicot','hélianthème','rose','iris','saxifrage','tulipe','orchidée','pensée','herbe','edelweiss'];
 
 function searchComplete(searchstr) {
   var imageSearch = searches[searchstr];
@@ -31,7 +32,7 @@ function searchComplete(searchstr) {
     img.src=result.tbUrl;
     var link = document.createElement('a');
     link.href = result.originalContextUrl;
-    link.setAttribute("target", "_blank");
+    //link.setAttribute("target", "_blank");
     link.appendChild(img);
     s.appendChild(link);
     contentDiv.appendChild(s);
@@ -117,7 +118,7 @@ function makeUrl(searchStrings, bdname) {
 }
 
   function makeLink(searchStrings, bdname, label, title) {
-    return '<a href="' + makeUrl(searchStrings, bdname) + '" title="' + title + '" target="_blank">x</a> ';
+    return '<a href="' + makeUrl(searchStrings, bdname) + '" title="' + title + '" target="_blank">' + label + '</a> ';
 }
 
 function onLoad() {
@@ -127,18 +128,21 @@ function onLoad() {
   numBDLetters = bdname.length;
   if (numBDLetters > 10) numBDLetters = 10; // because haven't made it quite dynamic enough yet
   for (var i = 1; i <= numBDLetters; i++) {
-    if (query['s'+i])
+    if (query['s'+i]) {
       document.getElementById('str'+i).value = query['s'+i];
-    else
+    } else {
       document.getElementById('str'+i).value = letters[i-1];      
+      document.getElementById('str'+i).value = defaults[i-1];
+    }
   }
   updateLink();
+  var count = 1;
   document.getElementById('examples').innerHTML = ' ';
-  document.getElementById('examples').innerHTML += makeLink(['coquelicot','hélianthème','rose','iris','saxifrage','tulipe','orchidée','pensée','herbe','edelweiss'], bdname, 'x', "Fleurs");
-  document.getElementById('examples').innerHTML += makeLink(['crocodile','hérisson','rhinocéros','iguane','saumon','tapir','ornithorynque','poulpe','hibou','elephant'], bdname, 'x', "Animaux");
-  document.getElementById('examples').innerHTML += makeLink(['Colomb','Homère','Riemann','Iznogoud','Saint-Simon','Tintin','Ovide','Poseidon','Horace','Euler'], bdname, 'x', "Personnages");
-  document.getElementById('examples').innerHTML += makeLink(['Cuba','Honduras','Russie','Islande','Suède','Tahiti','Oman','Pérou','Holland','Espagne'], bdname, 'x', "Pays");
-  document.getElementById('examples').innerHTML += makeLink(bdname.split(''), bdname, 'x', "Lettres");
+  document.getElementById('examples').innerHTML += makeLink(['crocodile','hérisson','rhinocéros','iguane','saumon','tapir','ornithorynque','poulpe','hibou','elephant'], bdname, count++, "Animaux");
+  document.getElementById('examples').innerHTML += makeLink(['Colomb','Homère','Riemann','Iznogoud','Saint-Simon','Tintin','Ovide','Poseidon','Horace','Euler'], bdname, count++, "Personnages");
+  document.getElementById('examples').innerHTML += makeLink(['Cuba','Honduras','Russie','Islande','Suède','Tahiti','Oman','Pérou','Holland','Espagne'], bdname, count++, "Pays");
+  document.getElementById('examples').innerHTML += makeLink(bdname.split(''), bdname, count++, "Lettres");
+  document.getElementById('examples').innerHTML += makeLink(defaults, bdname, count++, "Fleurs");
   setInterval(displayMessage, 2000);
   // Include the required Google branding
   google.search.Search.getBranding('branding');	
@@ -175,9 +179,9 @@ body { font-family: Arial; border: 0 none; }
 <body>
   <button onclick="document.getElementById('strings').style.visibility = 'visible'">...</button>
   <span id="strings">
-    More cards: <span id="examples"></span>
+    More cards: <span id="examples"></span><br/>
     <button onclick="document.getElementById('diy').style.visibility = 'visible'">DIY</button>
-    <div id="diy">
+    <span id="diy">
       <span id="picletters">
 	<input type="text" id="str1" class="let" value="c"/>
 	<input type="text" id="str2" class="let" value="h"/>
@@ -195,7 +199,7 @@ body { font-family: Arial; border: 0 none; }
 	/ <a href="http://www.onelook.com/?w=e*%3Aflower" title="find words with OneLook Dictionary search" target="_blank">Lookup</a>
 	/ <a href="https://github.com/kaicarver/hbd" title="Source code on GitHub" target="_blank">Source</a>
       </span>
-    </div>
+    </span>
   </span>
   <div id="content"></div>
   <div id="branding"></div>
