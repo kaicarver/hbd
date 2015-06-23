@@ -72,12 +72,14 @@ function displayMessage() {
   for (var i = 0; i < letters.length; i++) {
     str += '<div class="letter '+fonts[Math.floor(Math.random() * fonts.length)]+' '+colors[Math.floor(Math.random() * colors.length)]+' '+bgcolors[Math.floor(Math.random() * bgcolors.length)]+'">'+letters[i]+'</div>';
   }
+  if (0) {
   contentDiv.innerHTML += str + '<br>';
   fonts = [ 'font6' ];
   letters = bdname.split("");
   str = "";
   for (var i = 0; i < letters.length; i++) {
     str += '<div class="letter '+fonts[Math.floor(Math.random() * fonts.length)]+' '+colors[Math.floor(Math.random() * colors.length)]+' '+bgcolors[Math.floor(Math.random() * bgcolors.length)]+'">'+letters[i]+'</div>';
+  }
   }
   for (var i=1; i <= numBDLetters; i++) {
     doSearch(document.getElementById('str'+i).value);
@@ -132,13 +134,11 @@ function onLoad() {
   }
   updateLink();
   document.getElementById('examples').innerHTML = ' ';
-  document.getElementById('examples').innerHTML += makeLink(bdname.split(''), bdname, 'x', "Lettres");
+  document.getElementById('examples').innerHTML += makeLink(['coquelicot','hélianthème','rose','iris','saxifrage','tulipe','orchidée','pensée','herbe','edelweiss'], bdname, 'x', "Fleurs");
   document.getElementById('examples').innerHTML += makeLink(['crocodile','hérisson','rhinocéros','iguane','saumon','tapir','ornithorynque','poulpe','hibou','elephant'], bdname, 'x', "Animaux");
   document.getElementById('examples').innerHTML += makeLink(['Colomb','Homère','Riemann','Iznogoud','Saint-Simon','Tintin','Ovide','Poseidon','Horace','Euler'], bdname, 'x', "Personnages");
-  document.getElementById('examples').innerHTML += makeLink(['coquelicot','hélianthème','rose','iris','saxifrage','tulipe','orchidée','pensée','herbe','edelweiss'], bdname, 'x', "Fleurs");
   document.getElementById('examples').innerHTML += makeLink(['Cuba','Honduras','Russie','Islande','Suède','Tahiti','Oman','Pérou','Holland','Espagne'], bdname, 'x', "Pays");
-  document.getElementById('examples').innerHTML += ' / <a href="http://www.onelook.com/?w=e*%3Aflower" title="find words with OneLook Dictionary search" target="_blank">Lookup</a>';
-  document.getElementById('examples').innerHTML += ' / <a href="https://github.com/kaicarver/hbd" title="Source code on GitHub" target="_blank">Source</a>';
+  document.getElementById('examples').innerHTML += makeLink(bdname.split(''), bdname, 'x', "Lettres");
   setInterval(displayMessage, 2000);
   // Include the required Google branding
   google.search.Search.getBranding('branding');	
@@ -166,33 +166,38 @@ body { font-family: Arial; border: 0 none; }
 .bgcolor4 { background-color: red; }
 .bgcolor5 { background-color: blue; }
 .letter img { width: 100px; height: 100px; }
-#strings { display: none; }
+#strings { visibility: hidden; }
+#diy { visibility: hidden; }
 #content { text-align: center; vertical-align: top; }
 .let { width: 80px; }
 </style>
 </head>
 <body>
-    <div id="strings">
-          <button onclick="document.getElementById('strings').style.display = 'none'; document.getElementById('showstrings').style.display = 'block'">Hide</button>  
-	  <span id="picletters">
-            <input type="text" id="str1" class="let" value="lollipop"/>
-            <input type="text" id="str2" class="let" value="egg"/>
-            <input type="text" id="str3" class="let" value="omo"/>
-            <input type="text" id="str4" class="let" value="nasturtium"/>
-            <input type="text" id="str5" class="let" value="oboe"/>
-            <input type="text" id="str6" class="let" value="robot"/>
-            <input type="text" id="str7" class="let" value="europe"/>
-            <input type="text" id="str8" class="let" value="europe"/>
-            <input type="text" id="str9" class="let" value="europe"/>
-            <input type="text" id="str10" class="let" value="europe"/>
-	  </span>
-	  <a href="" id="link" title="Link to this message for sharing" target="_blank">Link</a>
-	  <span id="examples"></span>
+  <button onclick="document.getElementById('strings').style.visibility = 'visible'">...</button>
+  <span id="strings">
+    More cards: <span id="examples"></span>
+    <button onclick="document.getElementById('diy').style.visibility = 'visible'">DIY</button>
+    <div id="diy">
+      <span id="picletters">
+	<input type="text" id="str1" class="let" value="c"/>
+	<input type="text" id="str2" class="let" value="h"/>
+	<input type="text" id="str3" class="let" value="r"/>
+	<input type="text" id="str4" class="let" value="i"/>
+	<input type="text" id="str5" class="let" value="s"/>
+	<input type="text" id="str6" class="let" value="t"/>
+	<input type="text" id="str7" class="let" value="o"/>
+	<input type="text" id="str8" class="let" value="p"/>
+	<input type="text" id="str9" class="let" value="h"/>
+	<input type="text" id="str10" class="let" value="e"/>
+      </span>
+      <a href="" id="link" title="Link to this message for sharing" target="_blank">Link</a>
+      <span>
+	/ <a href="http://www.onelook.com/?w=e*%3Aflower" title="find words with OneLook Dictionary search" target="_blank">Lookup</a>
+	/ <a href="https://github.com/kaicarver/hbd" title="Source code on GitHub" target="_blank">Source</a>
+      </span>
     </div>
-    <div id="showstrings">
-          <button onclick="document.getElementById('strings').style.display = 'block'; document.getElementById('showstrings').style.display = 'none'">Show</button>
-    </div>
-    <div id="content"></div>
-    <div id="branding"></div>
-  </body>
+  </span>
+  <div id="content"></div>
+  <div id="branding"></div>
+</body>
 </html>
