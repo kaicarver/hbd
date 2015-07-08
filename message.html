@@ -4,14 +4,16 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 <title>Happy</title>
-<script type="text/javascript">
+
+<script>
   var messy = "";
-  var message = "bon anniversaire jean edouard";
+  var message = "happy birthday jean edouard";
   var messageChars = message.split('');
   var messageCharIndices = [];
-  var lineLength = 80;
-  var numLines = 15;
-  var intervalID;
+  var spaceBetweenChars = 1;
+  var lineLength = 16;
+  var numLines = 30;
+  var intervalID = 0;
 
   function randomText(chars, len) {
     var text = "";
@@ -22,11 +24,16 @@
   }
   function init() {
     messy = randomText("abcdefghijklmnopqrstuvwxyz", lineLength * numLines);
-    var sofar = lineLength;
+    var sofar = 0;
     for (var i = 0; i < messageChars.length; i++) {
       var c = messageChars[i];
       if (c != ' ') {
 	messageCharIndices[i] = messy.indexOf(c, sofar);
+	if (messageCharIndices[i] == -1) {
+	  numLines++;
+	  init();
+	  return;
+	}
 	sofar = messageCharIndices[i] + 2;
       } else {
 	sofar = (((messageCharIndices[i-1]) / lineLength) + 1) * lineLength; // start word on new line
@@ -40,7 +47,7 @@
   }
   function initBackground() {
     messy = randomText("abcdefghijklmnopqrstuvwxyz", lineLength * numLines);
-    var sofar = lineLength;
+    var sofar = 0;
     for (var i = 0; i < messageChars.length; i++) {
       var c = messageChars[i];
       if (c != ' ') {
@@ -48,9 +55,9 @@
 	if (pos < messageCharIndices[i]) {
 	  messageCharIndices[i] = pos;
 	}
-	sofar = messageCharIndices[i] + 2;
+	sofar = messageCharIndices[i] + spaceBetweenChars + 1;
       } else {
-	sofar = (((messageCharIndices[i-1]) / lineLength) + 1) * lineLength; // start word on new line
+	sofar = ((Math.floor((messageCharIndices[i-1]) / lineLength)) + 1) * lineLength; // start word on new line
       }
     }
     display();
@@ -74,36 +81,32 @@
     }
     document.getElementById('alltext').innerHTML = text;
   }
+  function loop() {
+    if (intervalID == 0) {
+      intervalID = setInterval(function() { initBackground(); initBlank(); reveal() }, 100);
+    } else {
+      clearInterval(intervalID);
+      intervalID = 0;
+    }
+  }
 </script>
 <style>
-  body { text-align: center; }
-  pre { font-family: Courier; font-size: 0.8em; }
-  #alltext1 {
-      width: 100px;
-      height: 100px;
-      background-color: red;
-      
-      position: absolute;
-      top:0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      
-      margin: auto;      
-  }
+  body { xtext-align: center; border: 0 none; }
+  pre { font-family: Courier; font-size: 8vw; font-style: bold; padding: 0.25em; margin-top: 0; margin-bottom: 0; margin-right: 0.25em; margin-left: 0.25em; background-color: pink; height: 5em; }
 </style>
 </head>
-<body onload="init()">
-  <pre id="alltext"></pre>
+<body onload="init(); loop()" onmousedown="init()">
+  <!--
   <button onclick="init()">Init</button>
   <button onclick="initBlank()">InitBlank</button>
   <button onclick="initBackground()">InitB</button>
   <button onclick="reveal()">Reveal</button>
   <button onclick="initBackground();reveal()">RevealB</button>
   <button onclick="initBackground(); initBlank(); reveal()">Go</button>
-  <button onclick="intervalID = setInterval(function() { initBackground(); initBlank(); reveal() }, 100);">LoopBlank</button>
+  <button onclick="loop(true)">LoopBlank</button>
   <button onclick="intervalID = setInterval(function() { initBackground(); reveal() }, 100);">Loop</button>
-  <button onclick="clearInterval(intervalID);">Stop Loop</button>
+  -->
+  <pre id="alltext"></pre>
 </body>
 </html>
 
