@@ -14,6 +14,7 @@
   var lineLength = 16;
   var numLines = 30;
   var intervalID = 0;
+  var theEnd = true;
 
   function randomText(chars, len) {
     var text = "";
@@ -62,11 +63,11 @@
     }
     display();
   }
-
   function reveal() {
     for (var i = 0; i < messageChars.length; i++) {
       if (messageChars[i] != ' ') {
-	messy = replaceAt(messy, messageCharIndices[i], messageChars[i].toUpperCase());
+	messy = replaceAt(messy, messageCharIndices[i], messageChars[i]);
+	//messy = replaceAt(messy, messageCharIndices[i], messageChars[i].toUpperCase());
       }
     }
     display();
@@ -74,28 +75,92 @@
   function replaceAt(str, index, character) {
     return str.substr(0, index) + character + str.substr(index+character.length);
   }
-  function display() {
-    var text = "";
+  function display2() {
+    var text = '';
     for (var i = 0; i < numLines; i++) {
       text += '<div>' + messy.substr(i*lineLength, lineLength) + '</div>';
     }
     document.getElementById('alltext').innerHTML = text;
   }
-  function loop() {
-    if (intervalID == 0) {
-      intervalID = setInterval(function() { initBackground(); initBlank(); reveal() }, 100);
-    } else {
-      clearInterval(intervalID);
-      intervalID = 0;
+  function display() {
+    var numWords = 0;
+    var text = '<div>';
+    var allchars = messy.split('');
+    var pos = 0;
+    theEnd = endConfiguration();
+    for (var i = 0; i < allchars.length; i++) {
+      if (pos < messageChars.length || i < (numWords + 1) * lineLength) {
+      if (i != 0 && ((i % lineLength) == 0)) {
+	text += '</div><div>';
+      }
+      if (i == messageCharIndices[pos]) {
+	// special formatting for message characters
+	text += '<span class="m">' + allchars[i] + '</span>';
+	pos++;
+	if (messageChars[pos] == ' ') {
+	  pos++;
+	  numWords++;
+	}
+      } else {
+	if (theEnd) {
+	  text += '!';
+	} else {
+	  text += allchars[i];
+	}
+      }
+      }
     }
+    text += '</div>';
+    if (theEnd) {
+      endLoop();
+      text += '<div class="m">'+Array(lineLength+1).join("¡")+'</div>';
+    }
+    document.getElementById('alltext').innerHTML = text;
+  }
+  function endConfiguration() {
+    var wordNum = 0;
+    var wordCharPos = 0;
+    for (var i = 0; i < messageChars.length; i++) {
+      if (messageChars[i] != ' ') {
+	if (messageCharIndices[i] != wordNum * lineLength + wordCharPos * (spaceBetweenChars + 1)) {
+	  return false;
+	}
+	wordCharPos++;
+      } else {
+	wordNum++;
+	wordCharPos = 0;
+      }
+    }
+    return true;
+  }
+  function loop(blankBackground) {
+    if (theEnd) {
+      init();
+    }
+    if (intervalID == 0) {
+      if (blankBackground) {
+	intervalID = setInterval(function() { initBackground(); initBlank(); reveal() }, 100);
+      } else {
+	intervalID = setInterval(function() { initBackground(); reveal() }, 100);
+      }
+    } else {
+      endLoop();
+    }
+  }
+  function endLoop() {
+    clearInterval(intervalID);
+    intervalID = 0;
   }
 </script>
 <style>
-  body { xtext-align: center; border: 0 none; }
-  pre { font-family: Courier; font-size: 8vw; font-style: bold; padding: 0.25em; margin-top: 0; margin-bottom: 0; margin-right: 0.25em; margin-left: 0.25em; background-color: pink; height: 5em; }
+  body { text-align: center; border: 0 none; }
+  pre { font-family: Courier; font-size: 9vw; font-style: bold; color: lightgray;
+	padding: 0.1em; margin-top: 0; margin-bottom: 0; margin-right: 0.25em; margin-left: 0.25em;
+	background-color: #FFFF5F; height: 5em; line-height: 1em; }
+  .m { color: red; }
 </style>
 </head>
-<body onload="init(); loop()" onmousedown="init()" ontouchstart="init()">
+<body onload="init(); loop(false)">
   <!--
   <button onclick="init()">Init</button>
   <button onclick="initBlank()">InitBlank</button>
@@ -104,9 +169,9 @@
   <button onclick="initBackground();reveal()">RevealB</button>
   <button onclick="initBackground(); initBlank(); reveal()">Go</button>
   <button onclick="loop(true)">LoopBlank</button>
-  <button onclick="intervalID = setInterval(function() { initBackground(); reveal() }, 100);">Loop</button>
+  <button onclick="loop(false)">Loop</button>
   -->
-  <pre id="alltext"></pre>
+  <pre id="alltext" onmousedown="loop()" ontouchstart="loop()"></pre>
 </body>
 </html>
 
