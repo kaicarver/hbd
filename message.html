@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Display a birthday message for a person using random text. -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Happy</title>
+<script type="text/javascript">
+  var messy = "";
+  var message = "bon anniversaire jean edouard";
+  var messageChars = message.split('');
+  var messageCharIndices = [];
+  var lineLength = 80;
+  var numLines = 15;
+  var intervalID;
+
+  function randomText(chars, len) {
+    var text = "";
+    for (var i = 0; i < len; i++) {
+      text += chars.charAt(Math.floor(Math.random() * chars.length));
+    }    
+    return text;
+  }
+  function init() {
+    messy = randomText("abcdefghijklmnopqrstuvwxyz", lineLength * numLines);
+    var sofar = lineLength;
+    for (var i = 0; i < messageChars.length; i++) {
+      var c = messageChars[i];
+      if (c != ' ') {
+	messageCharIndices[i] = messy.indexOf(c, sofar);
+	sofar = messageCharIndices[i] + 2;
+      } else {
+	sofar = (((messageCharIndices[i-1]) / lineLength) + 1) * lineLength; // start word on new line
+      }
+    }
+    display();
+  }
+  function initBlank() {
+    messy = randomText(" ", lineLength * numLines);
+    display();
+  }
+  function initBackground() {
+    messy = randomText("abcdefghijklmnopqrstuvwxyz", lineLength * numLines);
+    var sofar = lineLength;
+    for (var i = 0; i < messageChars.length; i++) {
+      var c = messageChars[i];
+      if (c != ' ') {
+	var pos = messy.indexOf(c, sofar);
+	if (pos < messageCharIndices[i]) {
+	  messageCharIndices[i] = pos;
+	}
+	sofar = messageCharIndices[i] + 2;
+      } else {
+	sofar = (((messageCharIndices[i-1]) / lineLength) + 1) * lineLength; // start word on new line
+      }
+    }
+    display();
+  }
+
+  function reveal() {
+    for (var i = 0; i < messageChars.length; i++) {
+      if (messageChars[i] != ' ') {
+	messy = replaceAt(messy, messageCharIndices[i], messageChars[i].toUpperCase());
+      }
+    }
+    display();
+  }
+  function replaceAt(str, index, character) {
+    return str.substr(0, index) + character + str.substr(index+character.length);
+  }
+  function display() {
+    var text = "";
+    for (var i = 0; i < numLines; i++) {
+      text += '<div>' + messy.substr(i*lineLength, lineLength) + '</div>';
+    }
+    document.getElementById('alltext').innerHTML = text;
+  }
+</script>
+<style>
+  body { text-align: center; }
+  pre { font-family: Courier; font-size: 0.8em; }
+  #alltext1 {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      
+      position: absolute;
+      top:0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      
+      margin: auto;      
+  }
+</style>
+</head>
+<body onload="init()">
+  <pre id="alltext"></pre>
+  <button onclick="init()">Init</button>
+  <button onclick="initBlank()">InitBlank</button>
+  <button onclick="initBackground()">InitB</button>
+  <button onclick="reveal()">Reveal</button>
+  <button onclick="initBackground();reveal()">RevealB</button>
+  <button onclick="initBackground(); initBlank(); reveal()">Go</button>
+  <button onclick="intervalID = setInterval(function() { initBackground(); initBlank(); reveal() }, 100);">LoopBlank</button>
+  <button onclick="intervalID = setInterval(function() { initBackground(); reveal() }, 100);">Loop</button>
+  <button onclick="clearInterval(intervalID);">Stop Loop</button>
+</body>
+</html>
+
