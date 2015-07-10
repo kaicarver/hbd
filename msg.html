@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Display a birthday message for a person using random text. -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Happy</title>
+
+<script>
+  var messy = "";
+  var alphabet = "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ生日快樂"
+  var message = "生日 快樂";
+  var messageChars = message.split('');
+  var messageCharIndices = [];
+  var spaceBetweenChars = 1;
+  var lineLength = 4;
+  var numLines = 3;
+  var intervalID = 0;
+  var theEnd = true;
+
+  function randomText(chars, len) {
+    var text = "";
+    for (var i = 0; i < len; i++) {
+      text += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return text;
+  }
+  function init() {
+    messy = randomText(alphabet, lineLength * numLines);
+    var sofar = 0;
+    for (var i = 0; i < messageChars.length; i++) {
+      var c = messageChars[i];
+      if (c != ' ') {
+	messageCharIndices[i] = messy.indexOf(c, sofar);
+	sofar = messageCharIndices[i] + 2;
+      } else {
+	sofar = (((messageCharIndices[i-1]) / lineLength) + 1) * lineLength; // start word on new line
+      }
+    }
+    display();
+  }
+  function initBlank() {
+    messy = randomText(" ", lineLength * numLines);
+    display();
+  }
+  function initBackground() {
+    messy = randomText(alphabet, lineLength * numLines);
+    var sofar = 0;
+    for (var i = 0; i < messageChars.length; i++) {
+      var c = messageChars[i];
+      if (c != ' ') {
+	var pos = messy.indexOf(c, sofar);
+	if (pos < messageCharIndices[i]) {
+	  messageCharIndices[i] = pos;
+	}
+	sofar = messageCharIndices[i] + spaceBetweenChars + 1;
+      } else {
+	sofar = ((Math.floor((messageCharIndices[i-1]) / lineLength)) + 1) * lineLength; // start word on new line
+      }
+    }
+    display();
+  }
+  function reveal() {
+    for (var i = 0; i < messageChars.length; i++) {
+      if (messageChars[i] != ' ') {
+	messy = replaceAt(messy, messageCharIndices[i], messageChars[i]);
+	//messy = replaceAt(messy, messageCharIndices[i], messageChars[i].toUpperCase());
+      }
+    }
+    display();
+  }
+  function replaceAt(str, index, character) {
+    return str.substr(0, index) + character + str.substr(index+character.length);
+  }
+  function display() {
+    var numWords = 0;
+    var text = '<div>';
+    var allchars = messy.split('');
+    var pos = 0;
+    theEnd = endConfiguration();
+    for (var i = 0; i < allchars.length; i++) {
+      if (pos < messageChars.length || i < (numWords + 1) * lineLength) {
+      if (i != 0 && ((i % lineLength) == 0)) {
+	text += '</div><div>';
+      }
+      if (i == messageCharIndices[pos]) {
+	// special formatting for message characters
+	text += '<span class="m">' + allchars[i] + '</span>';
+	pos++;
+	if (messageChars[pos] == ' ') {
+	  pos++;
+	  numWords++;
+	}
+      } else {
+	if (theEnd) {
+	  //text += '！';
+	  text += '＊';
+	} else {
+	  text += allchars[i];
+	}
+      }
+      }
+    }
+    text += '</div>';
+    if (theEnd) {
+      endLoop();
+      text += '<div class="m">'+Array(lineLength+1).join("＊")+'</div>';
+    }
+    document.getElementById('alltext').innerHTML = text;
+  }
+  function endConfiguration() {
+    var wordNum = 0;
+    var wordCharPos = 0;
+    for (var i = 0; i < messageChars.length; i++) {
+      if (messageChars[i] != ' ') {
+	if (messageCharIndices[i] != wordNum * lineLength + wordCharPos * (spaceBetweenChars + 1)) {
+	  return false;
+	}
+	wordCharPos++;
+      } else {
+	wordNum++;
+	wordCharPos = 0;
+      }
+    }
+    return true;
+  }
+  function loop(blankBackground) {
+    if (theEnd) {
+      init();
+    }
+    if (intervalID == 0) {
+      if (blankBackground) {
+	intervalID = setInterval(function() { initBackground(); initBlank(); reveal() }, 100);
+      } else {
+	intervalID = setInterval(function() { initBackground(); reveal() }, 100);
+      }
+    } else {
+      endLoop();
+    }
+  }
+  function endLoop() {
+    clearInterval(intervalID);
+    intervalID = 0;
+  }
+</script>
+<style>
+  body { text-align: center; border: 0 none; }
+  pre { font-family: Courier; font-size: 20vmin; font-style: bold; color: lightgray;
+	padding: 0.1em; margin-top: 0; margin-bottom: 0; margin-right: 0.25em; margin-left: 0.25em;
+	background-color: #FFFF5F; width: 82vmin; height: 82vmin; line-height: 1.1em;
+        margin:auto; }
+  .m { color: red; }
+  .flexme{
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+  }
+  #buttons { xdisplay: none; position:absolute; }
+</style>
+</head>
+<body onload="init(); loop(false)">
+  <div class = 'flexme' style = 'position:absolute; top:0; bottom:0; right:0; left:0; '>
+    <pre id="alltext" onmousedown="loop()" ontouchstart="loop()"></pre>
+  </div>
+  <div id="buttons">
+    <button onclick="init()">Init</button>
+    <button onclick="initBlank()">InitBlank</button>
+    <button onclick="initBackground()">InitB</button>
+    <button onclick="reveal()">Reveal</button>
+    <button onclick="initBackground();reveal()">RevealB</button>
+    <button onclick="initBackground(); initBlank(); reveal()">Go</button>
+    <button onclick="loop(true)">LoopBlank</button>
+    <button onclick="loop(false)">Loop</button>
+  </div>
+</body>
+</html>
+
