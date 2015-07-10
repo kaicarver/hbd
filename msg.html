@@ -16,6 +16,7 @@
   var numLines = 4;
   var intervalID = 0;
   var theEnd = true;
+  var toYouDisplayed = false;
 
   function randomText(chars, len) {
     var text = "";
@@ -28,6 +29,8 @@
     for (var i = 0; i < messageChars.length; i++) {
       messageCharIndices[i] = -1;
     }
+    theEnd = true;
+    toYouDisplayed = false;
   }
   function init() {
     messy = randomText(alphabet, lineLength * numLines);
@@ -76,8 +79,17 @@
     text += '</div>';
     if (theEnd) {
       endLoop();
+      if (!toYouDisplayed) {
+	setTimeout(toYou, 3000);
+	toYouDisplayed = true;
+      }
     }
     document.getElementById('alltext').innerHTML = text;
+  }
+  function toYou() {
+    var text = document.getElementById('alltext').innerHTML;
+    document.getElementById('alltext').innerHTML = '<div>to</div><div>楊媽媽</div><div>from</div><div>凱&裕文</div>';
+    setTimeout(function(t) { document.getElementById('alltext').innerHTML = t; }, 3000, text);
   }
   function endConfiguration() {
     for (var i = 0; i < messageChars.length; i++) {
@@ -113,7 +125,7 @@
   pre { font-family: Courier; font-size: 20vmin; font-style: bold;
 	padding: 0.1em; margin-top: 0; margin-bottom: 0; margin-right: 0.25em; margin-left: 0.25em;
 	width: 85vmin; height: 85vmin; line-height: 1.1em;
-	margin:auto;
+	margin: auto;
 	color: lightgray; background-color: #FFE0FF; 
       }
   .m { color: blue; }
@@ -128,7 +140,7 @@
 </style>
 </head>
 <body onload="init()">
-  <div class = 'flexme' style = 'position:absolute; top:0; bottom:0; right:0; left:0; '>
+  <div class="flexme" style="position:absolute; top:0; bottom:0; right:0; left:0;">
     <pre id="alltext" onmousedown="loop(); return false;" ontouchstart="loop(); return false;"></pre>
   </div>
   <div id="buttons">
