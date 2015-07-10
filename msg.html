@@ -87,15 +87,21 @@
     }
     return true;
   }
+  var flag = false;
   function loop() {
-    if (theEnd) {
-      reset();
-    }
-    if (intervalID == 0) {
-      intervalID = setInterval(function() { init(); reveal(); }, 100);
-    } else {
-      endLoop();
-    }
+    if (!flag) {
+      flag = true;
+      setTimeout(function(){ flag = false; }, 100);
+
+      if (theEnd) {
+	reset();
+      }
+      if (intervalID == 0) {
+	intervalID = setInterval(function() { init(); reveal(); }, 100);
+      } else {
+	endLoop();
+      }
+    }  
   }
   function endLoop() {
     clearInterval(intervalID);
@@ -104,11 +110,13 @@
 </script>
 <style>
   body { text-align: center; border: 0 none; }
-  pre { font-family: Courier; font-size: 20vmin; font-style: bold; color: lightgray;
+  pre { font-family: Courier; font-size: 20vmin; font-style: bold;
 	padding: 0.1em; margin-top: 0; margin-bottom: 0; margin-right: 0.25em; margin-left: 0.25em;
-	background-color: #FFE0FF; width: 85vmin; height: 85vmin; line-height: 1.1em;
-        margin:auto; }
-  .m { color: red; }
+	width: 85vmin; height: 85vmin; line-height: 1.1em;
+	margin:auto;
+	color: lightgray; background-color: #FFE0FF; 
+      }
+  .m { color: blue; }
   .flexme{
       display: -webkit-box;
       display: -moz-box;
@@ -121,7 +129,7 @@
 </head>
 <body onload="init()">
   <div class = 'flexme' style = 'position:absolute; top:0; bottom:0; right:0; left:0; '>
-    <pre id="alltext" onmousedown="loop()" ontouchstart="loop()"></pre>
+    <pre id="alltext" onmousedown="loop(); return false;" ontouchstart="loop(); return false;"></pre>
   </div>
   <div id="buttons">
     <button onclick="reset()">Reset</button>
