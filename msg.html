@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Display a birthday message for a person using random text. -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Happy</title>
+
+<script>
+  var messy = "";
+  var alphabet = "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ生日快樂"
+  var message = "ＨＡＰＹＢ生日ＩＲ快樂ＴＨＤＡＹ";
+  var messageChars = message.split('');
+  var messageCharIndices = [];
+  var spaceBetweenChars = 1;
+  var lineLength = 4;
+  var numLines = 4;
+  var intervalID = 0;
+  var theEnd = true;
+
+  function randomText(chars, len) {
+    var text = "";
+    for (var i = 0; i < len; i++) {
+      text += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return text;
+  }
+  function reset() {
+    for (var i = 0; i < messageChars.length; i++) {
+      messageCharIndices[i] = -1;
+    }
+  }
+  function init() {
+    messy = randomText(alphabet, lineLength * numLines);
+    var allchars = messy.split('');
+    var sofar = 0;
+    for (var i = 0; i < messageChars.length; i++) {
+      if (messageChars[i] == allchars[i]) {
+	messageCharIndices[i] = i;
+      }
+    }
+    display();
+  }
+  function reveal() {
+    for (var i = 0; i < messageChars.length; i++) {
+      if (messageCharIndices[i] == i) {
+	messy = replaceAt(messy, i, messageChars[i]);
+      }
+    }
+    display();
+  }
+  function replaceAt(str, index, character) {
+    return str.substr(0, index) + character + str.substr(index+character.length);
+  }
+  function display() {
+    var text = '<div>';
+    var allchars = messy.split('');
+    var pos = 0;
+    theEnd = endConfiguration();
+    for (var i = 0; i < allchars.length; i++) {
+      if (i != 0 && ((i % lineLength) == 0)) {
+	text += '</div><div>';
+      }
+      if (messageCharIndices[i] == i) {
+	// special formatting for message characters
+	text += '<span class="m">' + allchars[i] + '</span>';
+	pos++;
+      } else {
+	if (theEnd) {
+	  //text += '！';
+	  text += '＊';
+	} else {
+	  text += allchars[i];
+	}
+      }
+    }
+    text += '</div>';
+    if (theEnd) {
+      endLoop();
+    }
+    document.getElementById('alltext').innerHTML = text;
+  }
+  function endConfiguration() {
+    for (var i = 0; i < messageChars.length; i++) {
+      if (messageCharIndices[i] != i) {
+	return false;
+      }
+    }
+    return true;
+  }
+  function loop() {
+    if (theEnd) {
+      reset();
+    }
+    if (intervalID == 0) {
+      intervalID = setInterval(function() { init(); reveal(); }, 100);
+    } else {
+      endLoop();
+    }
+  }
+  function endLoop() {
+    clearInterval(intervalID);
+    intervalID = 0;
+  }
+</script>
+<style>
+  body { text-align: center; border: 0 none; }
+  pre { font-family: Courier; font-size: 20vmin; font-style: bold; color: lightgray;
+	padding: 0.1em; margin-top: 0; margin-bottom: 0; margin-right: 0.25em; margin-left: 0.25em;
+	background-color: #FFE0FF; width: 85vmin; height: 85vmin; line-height: 1.1em;
+        margin:auto; }
+  .m { color: red; }
+  .flexme{
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+  }
+  #buttons { display: none; position:absolute; }
+</style>
+</head>
+<body onload="init()">
+  <div class = 'flexme' style = 'position:absolute; top:0; bottom:0; right:0; left:0; '>
+    <pre id="alltext" onmousedown="loop()" ontouchstart="loop()"></pre>
+  </div>
+  <div id="buttons">
+    <button onclick="reset()">Reset</button>
+    <button onclick="init()">Init</button>
+    <button onclick="reveal()">Reveal</button>
+    <button onclick="init(); reveal()">Go</button>
+    <button onclick="loop()">Loop</button>
+  </div>
+</body>
+</html>
+
