@@ -6,9 +6,11 @@ Birthday cards
 
 Léonore 8 septembre
 http://htmlpreview.github.io/?https://github.com/kaicarver/hbd-leonore/blob/master/hbd3.html
+http://kaicarver.github.io/hbd-leonore/
 
-Célia
-?
+Célia 12 octobre
+http://htmlpreview.github.io/?https://github.com/kaicarver/hbd-leonore/blob/master/new.html
+did i ever send this?
 
 2015
 
