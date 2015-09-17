@@ -2,6 +2,16 @@
 
 Birthday cards
 
+2014
+
+Léonore 8 septembre
+http://htmlpreview.github.io/?https://github.com/kaicarver/hbd-leonore/blob/master/hbd3.html
+
+Célia
+?
+
+2015
+
 Xof 23 juin
 http://htmlpreview.github.io/?https://github.com/kaicarver/hbd/blob/master/index.html
 
