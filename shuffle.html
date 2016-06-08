@@ -1,0 +1,147 @@
+<html>
+  <head>
+    <title>Shuffle Text</title>
+    <style>
+      body { text-align: center; }
+      .message { white-space: pre; font-family: Courier; font-size: 1.3em; letter-spacing: 0.4em; line-height: 1em; font-style: bold; color: white; }
+      .c1 { background-color: #F90F21; }
+      .c2 { background-color: #F90E2D; }
+      .c3 { background-color: #F80E39; }
+      .c4 { background-color: #F70D46; }
+      .c5 { background-color: #F60D52; }
+      .c6 { background-color: #F60C5F; }
+      .c7 { background-color: #F50C6B; }
+      .c8 { background-color: #F40C77; }
+      .c9 { background-color: #F30B83; }
+      .c10 { background-color: #F30B8F; }
+      .c11 { background-color: #F20A9C; }
+      .c12 { background-color: #F10AA8; }
+      .c13 { background-color: #F00AB4; }
+      .c14 { background-color: #EF09C0; }
+      .c15 { background-color: #EF09CC; }
+      .c16 { background-color: #EE08D8; }
+      .c17 { background-color: #ED08E4; }
+      .c18 { background-color: #E908EC; }
+      .c19 { background-color: #DC07EC; }
+      .c20 { background-color: #CF07EB; }
+      .c21 { background-color: #C107EA; }
+      .c22 { background-color: #B406E9; }
+      .c23 { background-color: #A706E8; }
+      .c24 { background-color: #9A05E8; }
+      .c25 { background-color: #8D05E7; }
+      .c26 { background-color: #8005E6; }
+      .c27 { background-color: #7304E5; }
+      .c28 { background-color: #6604E5; }
+      .c29 { background-color: #5904E4; }
+      .c30 { background-color: #4C03E3; }
+      .c31 { background-color: #3F03E2; }
+      .c32 { background-color: #3203E2; }
+    </style>
+  </head>
+  <body>
+    <script>
+      window.addEventListener('load', doit);
+
+      // idea: go from horizontal to vertical
+      /*
+      HAPPY      HHHHH
+      HAPPY      AAAAA
+      HAPPY  ->  PPPPP
+      HAPPY      PPPPP
+      HAPPY      YYYYY
+      also randomize not just line by line, but across square
+      */
+      // todo: go from mixed up to the message, not the other way around as now
+      // todo: repeat loop to keep the card dynamic
+      // make more random, not from right to left as now
+      // add a "from Kai, June 13, 2016"
+      // then animation can just be the background colors, leave text in order
+      // shuffling can also jump, not be progressive
+
+      var numMessages;
+      var time;
+      var message;
+      var interval = 10000;
+
+      function doit() {
+	message = location.search.substring(1);
+	if (message) message = decodeURIComponent(message);
+	else message = "HAPPY BIRTHDAY ASTRID";
+	numMessages = message.length; // makes a square
+	time = Array.apply(null, Array(numMessages)).map(Number.prototype.valueOf,0);
+	for (var i = 0; i < numMessages; i++) {
+	  var e = document.createElement('div');
+	  e.className = 'message';
+	  e.id = 'message'+i;
+	  document.body.appendChild(e);
+	  var a = Array.apply(0, Array(message.length)).map(function (x, y) { return y; });
+	  display(reorder(message,a), i);
+	  a = shuffle(a, i);
+	  //bubbleSort(a, i);
+	}
+      }	
+
+      function shuffle(array, i) {
+	var currentIndex = array.length, randomIndex, t;
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+	  // Pick a remaining element...
+	  randomIndex = Math.floor(Math.random() * currentIndex);
+	  currentIndex -= 1;
+	  // And swap it with the current element.
+	  var t = array[currentIndex];
+	  array[currentIndex] = array[randomIndex];
+	  array[randomIndex] = t;
+
+	  display(reorder(message,array), i);
+	}
+	// do it again...
+	currentIndex = array.length;
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+	  // Pick a remaining element...
+	  randomIndex = Math.floor(Math.random() * currentIndex);
+	  currentIndex -= 1;
+	  // And swap it with the current element.
+	  var t = array[currentIndex];
+	  array[currentIndex] = array[randomIndex];
+	  array[randomIndex] = t;
+
+	  display(reorder(message,array), i);
+	}
+	return array;
+      }
+      function bubbleSort(a, idx) {
+	var swapped;
+	do {
+	  swapped = false;
+	  for (var i=0; i < a.length-1; i++) {
+	    if (a[i] > a[i+1]) {
+	      var temp = a[i];
+	      a[i] = a[i+1];
+	      a[i+1] = temp;
+	      swapped = true;
+	    }
+	  }
+	  display(reorder(message,a), idx);
+	} while (swapped);
+      }
+      function reorder(text, indices) {
+	var oldLetters = text.split("");
+	var newLetters = [];
+	for (var i = 0; i < oldLetters.length; i++) {
+	  newLetters[i] = '<span class="c'+(indices[i]+1)+'">' + oldLetters[indices[i]] + '</span>';
+	}
+	return newLetters.join("");
+      }
+      function display(text, i) {
+	setTimeout(function() { output(text, i); }, time[i]);
+	time[i] += interval;
+      }
+      function output(text, i) {
+	//console.log(i, text);
+	document.getElementById('message'+i).innerHTML = text;
+      }
+    </script>
+  </body>
+</html>

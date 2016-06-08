@@ -1,0 +1,34 @@
+<html>
+  <!--
+      Display a birthday message for a person using concordances.
+    -->
+  <head>
+    <title>Happy</title>
+    <script>
+      var concordance = {
+	'happy' : [
+	  "Methinks in thee some blessed spirit doth speak His powerful sound within an organ weak: And what impossibility would slay In common sense, sense saves another way. Thy life is dear; for all that life can rate Worth name of life in thee hath estimate, Youth, beauty, wisdom, courage, all That happiness and prime can happy call: Thou this to hazard needs must intimate Skill infinite or monstrous desperate. Sweet practiser, thy physic I will try, That ministers thine own death if I die.",
+	  "Helena. Be not afraid that I your hand should take; I'll never do you wrong for your own sake: Blessing upon your vows! and in your bed Find fairer fortune, if you ever wed! Lafeu. These boys are boys of ice, they'll none have her: sure, they are bastards to the English; the French ne'er got 'em. Helena. You are too young, too happy, and too good, To make yourself a son out of my blood. Fourth Lord. Fair one, I think not so. Lafeu. There's one grape yet; I am sure thy father drunk wine: but if thou be'st not an ass, I am a youth of fourteen; I have known thee already."
+	],
+	'birth' : [
+	  "Go to, sir; you were beaten in Italy for picking a kernel out of a pomegranate; you are a vagabond and no true traveller: you are more saucy with lords and honourable personages than the commission of your birth and virtue gives you heraldry. You are not worth another word, else I'ld call you knave. I leave you.",
+	  "As I remember, Adam, it was upon this fashion bequeathed me by will but poor a thousand crowns, and, as thou say'st, charged my brother, on his blessing, to breed me well; and there begins my sadness. My brother Jaques he keeps at school, and report speaks goldenly of his profit. For my part, he keeps me rustically at home, or, to speak more properly, stays me here at home unkept; for call you that keeping for a gentleman of my birth that differs not from the stalling of an ox? His horses are bred better; for, besides that they are fair with their feeding, they are taught their manage, and to that end riders dearly hir'd; but I, his brother, gain nothing under him but growth; for the which his animals on his dunghills are as much bound to him as I. Besides this nothing that he so plentifully gives me, the something that nature gave me his countenance seems to take from me. He lets me feed with his hinds, bars me the place of a brother, and as much as in him lies, mines my gentility with my education. This is it, Adam, that grieves me; and the spirit of my father, which I think is within me, begins to mutiny against this servitude. I will no longer endure it, though yet I know no wise remedy how to avoid it."
+	],
+	'day' : [
+	  "The duke knows him for no other but a poor officer of mine; and writ to me this other day to turn him out o' the band: I think I have his letter in my pocket.",
+	  "The king's a beggar, now the play is done: All is well ended, if this suit be won, That you express content; which we will pay, With strife to please you, day exceeding day: Ours be your patience then, and yours our parts; Your gentle hands lend us, and take our hearts."
+	],
+      };
+      function display() {
+	var e = document.getElementById('display');
+	var html = 'howdy';
+	e.innerHTML = html;
+      }
+      window.addEventListener('load', display);
+    </script>
+  </head>
+  <body>
+    <div id="display"></div>
+  </body>
+</html>
+
