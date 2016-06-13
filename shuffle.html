@@ -119,36 +119,19 @@
       }
       function shuffle(array, i) {
 	var currentIndex, randomIndex, t;
-	if (i % 2) {
-	  // While there remain elements to shuffle...
-	  currentIndex = array.length;
-	  while (0 !== currentIndex) {
-	    // Pick a remaining element...
-	    randomIndex = Math.floor(Math.random() * currentIndex);
-	    currentIndex -= 1;
-	    // And swap it with the current element.
-	    var t = array[currentIndex];
-	    array[currentIndex] = array[randomIndex];
-	    array[randomIndex] = t;
-
-	    display(reorder(message,array), i);
-	  }
-	} else {
-	  // While there remain elements to shuffle...
-	  currentIndex = 0;
-	  while (array.length !== currentIndex) {
-	    // Pick a remaining element...
-	    randomIndex = Math.floor(Math.random() * (array.length - currentIndex - 1));
-
-
-	    // And swap it with the current element.
-	    var t = array[currentIndex];
-	    array[currentIndex] = array[randomIndex];
-	    array[randomIndex] = t;
-
-	    currentIndex += 1;
-	    display(reorder(message,array), i);
-	  }
+	// While there remain elements to shuffle...
+	currentIndex = array.length;
+	while (0 !== currentIndex) {
+	  // Pick a remaining element...
+	  randomIndex = Math.floor(Math.random() * currentIndex);
+	  currentIndex -= 1;
+	  // And swap it with the current element.
+	  if (i % 2) array = array.reverse();
+	  var t = array[currentIndex];
+	  array[currentIndex] = array[randomIndex];
+	  array[randomIndex] = t;
+	  if (i % 2) array = array.reverse();
+	  display(reorder(message, array), i);
 	}
 	return array;
       }
