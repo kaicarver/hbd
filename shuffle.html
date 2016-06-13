@@ -4,15 +4,16 @@
     <style>
       body { text-align: center; }
       .message { white-space: pre; font-family: Courier; font-size: 4.5vmin; letter-spacing: 0.4em; line-height: 1em; font-style: bold; color: white; }
-      .c1 { background-color: #F90F21; }
-      .c2 { background-color: #F90E2D; }
-      .c3 { background-color: #F80E39; }
-      .c4 { background-color: #F70D46; }
-      .c5 { background-color: #F60D52; }
-      .c6 { background-color: #F60C5F; }
-      .c7 { background-color: #F50C6B; }
-      .c8 { background-color: #F40C77; }
-      .c9 { background-color: #F30B83; }
+      #endMessage { color: gray; font-style: italic; padding: 0.3em; }
+      .c1  { background-color: #F90F21; }
+      .c2  { background-color: #F90E2D; }
+      .c3  { background-color: #F80E39; }
+      .c4  { background-color: #F70D46; }
+      .c5  { background-color: #F60D52; }
+      .c6  { background-color: #F60C5F; }
+      .c7  { background-color: #F50C6B; }
+      .c8  { background-color: #F40C77; }
+      .c9  { background-color: #F30B83; }
       .c10 { background-color: #F30B8F; }
       .c11 { background-color: #F20A9C; }
       .c12 { background-color: #F10AA8; }
@@ -57,13 +58,31 @@
       // add a "from Kai, June 13, 2016"
       // then animation can just be the background colors, leave text in order
       // shuffling can also jump, not be progressive
+      // change letter by letter, not a whole line, with more randomness
 
       var numMessages;
       var time;
       var message;
-      var interval = 1000;
+      var interval = 250;
 
       function doit() {
+	if (0) {
+	var color1 = splitRGB(0xF90F21);
+	var color2 = splitRGB(0x3203E2);
+	var color = color1;
+	console.log(color.red, color.red.toString(16));
+	console.log(color);
+	var numColors = 32;
+	for (var i = 0; i < numColors; i++) {
+	  color.red = color1.red + Math.floor((i/(numColors-1)) * (color2.red - color1.red));
+	  color.gre = color1.gre + Math.floor((i/(numColors-1)) * (color2.gre - color1.gre));
+	  color.blu = color1.blu + Math.floor((i/(numColors-1)) * (color2.blu - color1.blu));
+	  console.log(i + ':', color.red, color.gre, color.blu);
+	  console.log(i + ':', color.red.toString(16), color.gre.toString(16), color.blu.toString(16));
+	}
+	}
+	//return;
+	var endColor = parseInt('3203E2', 16);
 	message = location.search.substring(1);
 	if (message) message = decodeURIComponent(message);
 	else message = "HAPPY BIRTHDAY ASTRID";
@@ -75,39 +94,61 @@
 	  e.id = 'message'+i;
 	  document.body.appendChild(e);
 	  var a = Array.apply(0, Array(message.length)).map(function (x, y) { return y; });
-	  display(reorder(message,a), i);
+	  display(reorder(message,a), i, true);
 	  a = shuffle(a, i);
 	  //bubbleSort(a, i);
 	}
-      }	
-
-      function shuffle(array, i) {
-	var currentIndex = array.length, randomIndex, t;
-	// While there remain elements to shuffle...
-	while (0 !== currentIndex) {
-	  // Pick a remaining element...
-	  randomIndex = Math.floor(Math.random() * currentIndex);
-	  currentIndex -= 1;
-	  // And swap it with the current element.
-	  var t = array[currentIndex];
-	  array[currentIndex] = array[randomIndex];
-	  array[randomIndex] = t;
-
-	  display(reorder(message,array), i);
+	var endId = 'endMessage';
+	e = document.getElementById(endId);
+	if (e === null) {
+	  e = document.createElement('div');
+	  e.id = endId;
 	}
-	// do it again...
-	currentIndex = array.length;
-	// While there remain elements to shuffle...
-	while (0 !== currentIndex) {
-	  // Pick a remaining element...
-	  randomIndex = Math.floor(Math.random() * currentIndex);
-	  currentIndex -= 1;
-	  // And swap it with the current element.
-	  var t = array[currentIndex];
-	  array[currentIndex] = array[randomIndex];
-	  array[randomIndex] = t;
+	e.style.display = 'none';
+	e.innerHTML = '<a target="_blank" href="https://rawgit.com/kaicarver/midiplayer/master/index.html?playWord=happy+++bIrThday++astrid++aStRid++&personName=ASTRID&instrument=marimba">Happy Birthday Astrid</a>! from Kai, June 2016';
+	document.body.appendChild(e);
+	//playAll();
+	setTimeout(function() { e.style.display = 'block'; setTimeout(doit, 5000); }, interval * (numMessages + 5));
+      }	
+      function splitRGB(colorRGB) {
+	var color = {};
+	color.red = (colorRGB & 0xFF0000) >> 16;
+	color.gre = (colorRGB & 0x00FF00) >> 8;
+	color.blu = (colorRGB & 0x0000FF);
+	return color;
+      }
+      function shuffle(array, i) {
+	var currentIndex, randomIndex, t;
+	if (i % 2) {
+	  // While there remain elements to shuffle...
+	  currentIndex = array.length;
+	  while (0 !== currentIndex) {
+	    // Pick a remaining element...
+	    randomIndex = Math.floor(Math.random() * currentIndex);
+	    currentIndex -= 1;
+	    // And swap it with the current element.
+	    var t = array[currentIndex];
+	    array[currentIndex] = array[randomIndex];
+	    array[randomIndex] = t;
 
-	  display(reorder(message,array), i);
+	    display(reorder(message,array), i);
+	  }
+	} else {
+	  // While there remain elements to shuffle...
+	  currentIndex = 0;
+	  while (array.length !== currentIndex) {
+	    // Pick a remaining element...
+	    randomIndex = Math.floor(Math.random() * (array.length - currentIndex - 1));
+
+
+	    // And swap it with the current element.
+	    var t = array[currentIndex];
+	    array[currentIndex] = array[randomIndex];
+	    array[randomIndex] = t;
+
+	    currentIndex += 1;
+	    display(reorder(message,array), i);
+	  }
 	}
 	return array;
       }
@@ -134,13 +175,24 @@
 	}
 	return newLetters.join("");
       }
-      function display(text, i) {
-	setTimeout(function() { output(text, i); }, time[i]);
+      var thingsToDisplay = [];
+      function display(text, i, norandom) {
+	var randomOffset = norandom ? 0 : (Math.random() - 0.5) * interval;
+	//thingsToDisplay.push( { msgText: text, msgIndex: i } );
+	setTimeout(function() { output(text, i); }, time[i] + randomOffset);
 	time[i] += interval;
       }
       function output(text, i) {
-	//console.log(i, text);
 	document.getElementById('message'+i).innerHTML = text;
+      }
+      function playAll() {
+	for (var i = 0; i < thingsToDisplay.length; i++) {
+	  var randomOffset = (Math.random() - 0.5) * interval;
+	  var text = thingsToDisplay[i].msgText;
+	  var index = thingsToDisplay[i].msgIndex;
+	  console.log('setTimeout', text, index, i*100);
+	  setTimeout(function() { output(text, index); }, i*100);
+	}
       }
     </script>
   </body>
