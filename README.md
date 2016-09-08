@@ -28,3 +28,17 @@ https://rawgit.com/kaicarver/midiplayer/master/index.html
 
 Erik 10 septembre
 https://rawgit.com/kaicarver/midiplayer/master/index.html?playWord=Joyeux%20Anniversaire%20Erik!&personName=ERIK
+
+2016
+
+Dad 20 April
+http://codepen.io/kaicarver/full/oxyjBP/
+
+Astrid 13 June
+https://rawgit.com/kaicarver/hbd/master/shuffle.html
+
+Jean-Édouard 8 juillet
+http://codepen.io/kaicarver/full/YWGVdV/
+
+Leonore
+https://rawgit.com/kaicarver/midiplayer/master/leo.html?playTune=Happy%20Birthday%20Leonore%202016!!!&instrument=voice_oohs
