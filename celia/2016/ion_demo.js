@@ -71,6 +71,11 @@ $(function () {
         if (action === "destroy") {
           this.items[name] && this.items[name].removeClass("loaded");
         }
+	var src = $el[0].src;
+	if (src.indexOf("0.gif") != -1) src = src.replace("0.gif", ".gif")
+	else if (src.indexOf("1.gif") != -1) src = src.replace("1.gif", "0.gif")
+	else src = src.replace(".gif", "1.gif");
+	$el[0].src = src;
         ion.sound[action](name, config);
       }
     }
