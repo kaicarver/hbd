@@ -29,6 +29,13 @@ https://rawgit.com/kaicarver/midiplayer/master/index.html
 Erik 10 septembre
 https://rawgit.com/kaicarver/midiplayer/master/index.html?playWord=Joyeux%20Anniversaire%20Erik!&personName=ERIK
 
+Adel Sept 17
+http://rawgit.com/kaicarver/midiplayer/master/msg.html
+http://rawgit.com/kaicarver/midiplayer/master/msg.html?message=С%20днем%20​​рождения
+
+Celia Oct 12
+http://rawgit.com/kaicarver/midiplayer/master/celia2015.html
+
 2016
 
 Dad 20 April
@@ -40,5 +47,8 @@ https://rawgit.com/kaicarver/hbd/master/shuffle.html
 Jean-Édouard 8 juillet
 http://codepen.io/kaicarver/full/YWGVdV/
 
-Leonore
+Leonore 8 septembre
 https://rawgit.com/kaicarver/midiplayer/master/leo.html?playTune=Happy%20Birthday%20Leonore%202016!!!&instrument=voice_oohs
+
+Celia 12 octobre
+https://cdn.rawgit.com/kaicarver/hbd/master/celia/2016/hbd.html
