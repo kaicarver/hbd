@@ -14,6 +14,8 @@
     img { width: 30vmin; }
     .nowrap { white-space: nowrap; }
     p { font-size: 0.7em; }
+    p.message { font-style: italic; }
+    p.thanks { font-size: 0.65em; }
   </style>
 </head>
 <body>
@@ -46,7 +48,7 @@
         <img class="button js-action" data-action="play" src="亞0.gif">
     </span>
 
-    <br>
+    <!--    <br>
 
     <span class="is-demo js-sound" data-name="sheng1">
         <span class="button js-action" data-action="play">sheng1</span>
@@ -69,6 +71,7 @@
     <span class="is-demo js-sound" data-name="ya4">
         <span class="button js-action" data-action="play">ya4</span>
     </span>
+    -->
 
     <script>
       $(document).ready(function () {
@@ -99,7 +102,9 @@
     </script>
     <!-- ion installed using: "npm install ion-sound" -->
   </div>
-  <p>Click or tap to hear the sound! Wish you a very happy birthday! --Kai</p>
+  <p class="message">Click or tap to hear the sound! Wish you a very happy birthday! --Kai</p>
+  <p class="thanks">
+  Thanks to <a href="https://www.mdbg.net/chindict/chindict.php?wdqb=%E7%94%9F%E6%97%A5%E5%BF%AB%E6%A8%82%E5%B8%8C%E8%8E%89%E4%BA%9E">MDBG Chinese-English dictionary</a> and to <a href="http://ionden.com/a/plugins/ion.sound/en.html">Ion.Sound</a> for images and sounds.</p>
 </body>
 </html>
 
