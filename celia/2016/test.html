@@ -1,21 +1,53 @@
 <!DOCTYPE html>
 <head>
-    <meta charset="utf-8">
-    <title>Test Sounds</title>
-    <!-- All JS -->
-    <script src="modernizr.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Plugin JS -->
-    <script src="node_modules/ion-sound/js/ion.sound.js"></script>
-    <script src="ion_demo.js"></script>
-    <style>
-      img { width: 4em; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Happy Birthday Celia</title>
+  <!-- All JS -->
+  <script src="modernizr.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Plugin JS -->
+  <script src="node_modules/ion-sound/js/ion.sound.js"></script>
+  <script src="ion_demo.js"></script>
+  <style>
+    body { text-align: center; }
+    img { width: 30vmin; }
+    .nowrap { white-space: nowrap; }
+    p { font-size: 0.7em; }
+  </style>
 </head>
 <body>
-  <h2>Test Sounds</h2>
-  <p>Click or tap the text or image to hear the sound:</p>
+  <h2>Happy Birthday Celia!</h2>
   <div id="demo_01">
+  <span class="nowrap">
+    <span class="is-demo js-sound" data-name="sheng1">
+        <img class="button js-action" data-action="play" src="生0.gif">
+    </span>
+    <span class="is-demo js-sound" data-name="ri4">
+        <img class="button js-action" data-action="play" src="日0.gif">
+    </span>
+  </span>
+  <span class="nowrap">
+    <span class="is-demo js-sound" data-name="kuai4">
+        <img class="button js-action" data-action="play" src="快0.gif">
+    </span>
+    <span class="is-demo js-sound" data-name="le4">
+        <img class="button js-action" data-action="play" src="樂0.gif">
+    </span>
+  </span>
+    <br>
+    <span class="is-demo js-sound" data-name="xi1">
+        <img class="button js-action" data-action="play" src="希0.gif">
+    </span>
+    <span class="is-demo js-sound" data-name="li4">
+        <img class="button js-action" data-action="play" src="莉0.gif">
+    </span>
+    <span class="is-demo js-sound" data-name="ya4">
+        <img class="button js-action" data-action="play" src="亞0.gif">
+    </span>
+
+    <br>
+
     <span class="is-demo js-sound" data-name="sheng1">
         <span class="button js-action" data-action="play">sheng1</span>
     </span>
@@ -37,29 +69,7 @@
     <span class="is-demo js-sound" data-name="ya4">
         <span class="button js-action" data-action="play">ya4</span>
     </span>
-    <br>
-    <span class="is-demo js-sound" data-name="sheng1">
-        <img class="button js-action" data-action="play" src="生0.gif">
-    </span>
-    <span class="is-demo js-sound" data-name="ri4">
-        <img class="button js-action" data-action="play" src="日0.gif">
-    </span>
-    <span class="is-demo js-sound" data-name="kuai4">
-        <img class="button js-action" data-action="play" src="快0.gif">
-    </span>
-    <span class="is-demo js-sound" data-name="le4">
-        <img class="button js-action" data-action="play" src="樂0.gif">
-    </span>
-    <span class="is-demo js-sound" data-name="xi1">
-        <img class="button js-action" data-action="play" src="希0.gif">
-    </span>
-    <span class="is-demo js-sound" data-name="li4">
-        <img class="button js-action" data-action="play" src="莉0.gif">
-    </span>
-    <span class="is-demo js-sound" data-name="ya4">
-        <img class="button js-action" data-action="play" src="亞0.gif">
-    </span>
-    
+
     <script>
       $(document).ready(function () {
 	// just to set up the demo
@@ -89,6 +99,7 @@
     </script>
     <!-- ion installed using: "npm install ion-sound" -->
   </div>
+  <p>Click or tap to hear the sound! Wish you a very happy birthday! --Kai</p>
 </body>
 </html>
 
