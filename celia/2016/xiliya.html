@@ -4,27 +4,27 @@
   }
   .debug { display: block; } /* display block for a text label saying what media we are incurrently in */
 
-  @media (min-width:320px)  { .debug:after { content: "smartphones, iPhone, portrait 480x320 phones" }
+  @media (min-device-width:320px)  { .debug:after { content: "smartphones, iPhone, portrait 480x320 phones" }
 			      .wish img { width: 50%; }
 			      .name img { width: 33.33%; }
 			    }
-  @media (min-width:481px)  { .debug:after { content: "portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide." }
+  @media (min-device-width:481px)  { .debug:after { content: "portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide." }
 			      .wish img { width: 50%; }
 			      .name img { width: 33.33%; }
 			    }
-  @media (min-width:641px)  { .debug:after { content: "portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones" }
+  @media (min-device-width:641px)  { .debug:after { content: "portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones" }
 			      .wish img { width: 50%; }
 			      .name img { width: 33.33%; }
 			    }
-  @media (min-width:961px)  { .debug:after { content: "tablet, landscape iPad, lo-res laptops ands desktops" }
+  @media (min-device-width:961px)  { .debug:after { content: "tablet, landscape iPad, lo-res laptops ands desktops" }
 			      .wish img { width: 12.5%; }
 			      .name img { width: 16.66%; }
 			    }
-  @media (min-width:1025px) { .debug:after { content: "big landscape tablets, laptops, and desktops" }
+  @media (min-device-width:1025px) { .debug:after { content: "big landscape tablets, laptops, and desktops" }
 			      .wish img { width: 12.5%; }
 			      .name img { width: 16.66%; }
 			    }
-  @media (min-width:1281px) { .debug:after { content: "hi-res laptops and desktops" }
+  @media (min-device-width:1281px) { .debug:after { content: "hi-res laptops and desktops" }
 			      .wish img { width: 12.5%; }
 			      .name img { width: 16.66%; }
 			    }
