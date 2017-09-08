@@ -26,7 +26,8 @@
     var displaytime = 0;
     var wordcount = 0;
     var counter = 0;
-    var tick = 100;
+    var initialdelay = 1000;
+    var tick = 50;
     var colors = ['red', 'blue', 'green', 'yellow'];
     var words = [ 'HAPPY', 'BIRTHDAY', 'LEONORE', '!2017' ];
     var totlet = 0;
@@ -41,20 +42,42 @@
       document.getElementById('display').innerHTML +=
 	'<div class="display" id="display'+i+'"><div class="letter">'+(i%10)+'</div></div>';
     }
-    for (var j = 0; j < maxlet; j++) {
-      var displaycount = -1-j;
-      for (var i = 0; i < words.length; i++) {
-	displaycount += words[i].length;
-	if (j < words[i].length) {
-	  stacklet(words[i], displaycount, j);
+    displayStacklets(2);
+    counter += 40;
+    displayStacklets(1);
+    counter += 40;
+    displayStacklets(0);
+    counter += 40;
+    displayStacklets(3);
+
+    function displayStacklets(mode) {
+      for (var j = 0; j < maxlet; j++) {
+	var displaycount = -1-j;
+	for (var i = 0; i < words.length; i++) {
+	  displaycount += words[i].length;
+	  if (j < words[i].length) {
+	    stacklet(words[i], displaycount, j, mode, i);
+	  }
 	}
       }
     }
-    function stacklet(string, count, truncate) {
+    function stacklet(string, count, truncate, mode, wordcount) {
       var letters = string.split('');
       drawlet('', count);
       for (var i = 0; i < letters.length - truncate; i++) {
-	drawlet(letters[i], count, i);
+	var letcount = i;
+	if (mode == 0) {
+	  letcount = i;
+	} else if (mode == 1) {
+	  letcount = counter;
+	} else if (mode == 2) {
+	  letcount = letters.length - truncate;
+	} else if (mode == 3) {
+	  letcount = letters.length - truncate + i + ((count%2) ? 2: 0) + (wordcount==1?4:0)+ (wordcount==2?5:0);
+	} else {
+	  letcount = 0;
+	}
+	drawlet(letters[i], count, letcount);
 	//drawlet(letters[i], wordcount, counter);
       }
       wordcount++;
@@ -62,7 +85,7 @@
     function drawlet(let, wordcount, letcount) {
       setTimeout(function() {
 	var display = 'display' + wordcount;
-	console.log(wordcount, letcount, display);
+	//console.log(wordcount, letcount, display);
 	var d = document.getElementById(display);
 	if (let === '') {
 	  d.innerHTML = '';
@@ -77,6 +100,8 @@
       return colors[i % colors.length];
     }
     function timer(counter, tick) {
+      //console.log(counter, 2000 + (counter * (1 / (counter + 1))) * tick + counter * tick/5);
+      //return initialdelay + (counter * (1 / (counter + 1))) * tick + + counter * tick/5;
       return counter * tick;
     }
   </script>
