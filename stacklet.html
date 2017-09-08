@@ -26,6 +26,12 @@
 	  0% { opacity:0; }
 	  100% { opacity:1; }
       }
+      .credits {
+	  font-style: normal;
+	  font-size: 0.6em;
+	  text-align: left;
+	  margin-left: 2em;
+      }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   </head>
@@ -60,6 +66,7 @@
     counter += 40;
     displayStacklets(3);
     setTimeout(signature, timer(counter+30, tick));
+    setTimeout(credits, timer(counter+80, tick));
 
     function displayStacklets(mode) {
       for (var j = 0; j < maxlet; j++) {
@@ -118,6 +125,10 @@
     function signature() {
       document.getElementById('display').innerHTML +=
 	'<p class="signature">Bon anniversaire Léonore, de la part de Kai, et bise!</p>';
+    }
+    function credits() {
+      document.getElementById('display').innerHTML +=
+	'<p class="signature credits">Credits:<br>Inspiration: the <a href="https://en.wikipedia.org/wiki/PLATO_(computer_system)">PLATO</a> system allowed the creation of smileys by <a href="https://twitter.com/chordbug/status/905772498796646400">superimposing characters</a>. <br>The font is <a href="https://fonts.google.com/specimen/Press+Start+2P">Press Start 2P</a>, an Open Font.</p>';
     }
   </script>
 </html>
