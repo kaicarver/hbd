@@ -52,3 +52,8 @@ https://rawgit.com/kaicarver/midiplayer/master/leo.html?playTune=Happy%20Birthda
 
 Celia 12 octobre
 https://cdn.rawgit.com/kaicarver/hbd/master/celia/2016/hbd.html
+
+2017
+
+Léonore 8 septembre
+https://rawgit.com/kaicarver/hbd/master/stacklet.html

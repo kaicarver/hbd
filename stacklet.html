@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <style>
+      .display {
+      position: relative;
+      padding: 5em;
+      display: inline;
+      width: 5em;
+      height: 5em;
+      line-height: 10em;
+      }
+      .letter {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10em;
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  </head>
+  <body>
+    <div id="display"></div>
+  </body>
+  <script>
+    var displaytime = 0;
+    var wordcount = 0;
+    var counter = 0;
+    var tick = 100;
+    var colors = ['red', 'blue', 'green', 'yellow'];
+    var words = [ 'HAPPY', 'BIRTHDAY', 'LEONORE', '!2017' ];
+    var totlet = 0;
+    var maxlet = 0;
+    for (var i = 0; i < words.length; i++) {
+      totlet += words[i].length;
+      if (maxlet < words[i].length) {
+	maxlet = words[i].length;
+      }
+    }
+    for (var i = 0; i < totlet; i++) {
+      document.getElementById('display').innerHTML +=
+	'<div class="display" id="display'+i+'"><div class="letter">'+(i%10)+'</div></div>';
+    }
+    for (var j = 0; j < maxlet; j++) {
+      var displaycount = -1-j;
+      for (var i = 0; i < words.length; i++) {
+	displaycount += words[i].length;
+	if (j < words[i].length) {
+	  stacklet(words[i], displaycount, j);
+	}
+      }
+    }
+    function stacklet(string, count, truncate) {
+      var letters = string.split('');
+      drawlet('', count);
+      for (var i = 0; i < letters.length - truncate; i++) {
+	drawlet(letters[i], count, i);
+	//drawlet(letters[i], wordcount, counter);
+      }
+      wordcount++;
+    }
+    function drawlet(let, wordcount, letcount) {
+      setTimeout(function() {
+	var display = 'display' + wordcount;
+	console.log(wordcount, letcount, display);
+	var d = document.getElementById(display);
+	if (let === '') {
+	  d.innerHTML = '';
+	} else {
+	  var style = 'style="color: ' + getcolor(letcount) + '"';
+	  d.innerHTML += '<div class="letter" ' + style + '>'+let+'</div>';
+	}
+      }, timer(counter, tick));
+      counter++;
+    }
+    function getcolor(i) {
+      return colors[i % colors.length];
+    }
+    function timer(counter, tick) {
+      return counter * tick;
+    }
+  </script>
+</html>
