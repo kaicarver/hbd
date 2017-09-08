@@ -10,11 +10,21 @@
       line-height: 10em;
       }
       .letter {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10em;
-      position: absolute;
-      left: 10px;
-      top: 10px;
+	  font-family: 'Press Start 2P', cursive;
+	  font-size: 10em;
+	  position: absolute;
+	  left: 10px;
+	  top: 10px;
+      }
+      .signature {
+	  font-style: italic;
+	  animation: 1s ease 0s normal forwards 1 fadein;
+	  text-align: right;
+	  margin-right: 2em;
+      }
+      @keyframes fadein{
+	  0% { opacity:0; }
+	  100% { opacity:1; }
       }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
@@ -49,6 +59,7 @@
     displayStacklets(0);
     counter += 40;
     displayStacklets(3);
+    setTimeout(signature, timer(counter+30, tick));
 
     function displayStacklets(mode) {
       for (var j = 0; j < maxlet; j++) {
@@ -103,6 +114,10 @@
       //console.log(counter, 2000 + (counter * (1 / (counter + 1))) * tick + counter * tick/5);
       //return initialdelay + (counter * (1 / (counter + 1))) * tick + + counter * tick/5;
       return counter * tick;
+    }
+    function signature() {
+      document.getElementById('display').innerHTML +=
+	'<p class="signature">Bon anniversaire Léonore, de la part de Kai, et bise!</p>';
     }
   </script>
 </html>
