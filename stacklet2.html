@@ -2,27 +2,26 @@
   <head>
     <title>Celia Happy Birthday 2017</title>
     <style>
-      body { margin-left: 5em; margin-right: 22em; margin-top: 3em;}
+      body { text-align: center; margin: 10vmin; }
       .display {
           position: relative;
-          padding: 3.5em;
+          padding: 7vmin;
           display: inline;
-          width: 5em;
-          height: 5em;
-          line-height: 7em;
+          width: 10vmin;
+          height: 10vmin;
+          line-height: 14vmin;
       }
       .letter {
           font-family: 'Press Start 2P', cursive;
-          font-size: 8em;
+          font-size: 16vmin;
           position: absolute;
-          left: 10px;
-          top: 10px;
+          left: 0px;
+          top: 0px;
       }
       .signature {
           font-style: italic;
           animation: 1s ease 0s normal forwards 1 fadein;
-          text-align: right;
-          margin-right: 2em;
+          text-align: center;
       }
       @keyframes fadein{
           0% { opacity:0; }
@@ -31,8 +30,7 @@
       .credits {
           font-style: normal;
           font-size: 0.6em;
-          text-align: left;
-          margin-left: 2em;
+          text-align: center;
       }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
@@ -63,7 +61,7 @@
     displayStacklets(0);
     displayStacklets(3);
     setTimeout(signature, timer(counter+5, tick));
-    setTimeout(credits, timer(counter+10, tick));
+    setTimeout(credits, timer(counter+50, tick));
 
     function displayStacklets(mode) {
       for (var j = 0; j < maxlet; j++) {
