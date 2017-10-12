@@ -44,7 +44,7 @@
     var wordcount = 0;
     var counter = 0;
     var initialdelay = 1000;
-    var tick = 150;
+    var tick = 50;
     var colors = ['red', 'blue', 'green', 'yellow'];
     var words = [ 'HAPPY', 'BIRTH*DAY*', 'CELIA', '2017!' ];
     var totlet = 0;
@@ -61,8 +61,8 @@
     displayStacklets(1);
     displayStacklets(0);
     displayStacklets(3);
-    setTimeout(signature, timer(counter+30, tick));
-    setTimeout(credits, timer(counter+80, tick));
+    setTimeout(signature, timer(counter+5, tick));
+    setTimeout(credits, timer(counter+10, tick));
 
     function displayStacklets(mode) {
       for (var j = 0; j < maxlet; j++) {
@@ -77,12 +77,13 @@
       counter += 40;
     }
     function displayLets(mode) {
+      var h = ''
       for (var i = 0; i < totlet; i++) {
-        document.getElementById('display').innerHTML +=
-	      '<div class="display" id="display'+i+'"><div class="letter">'+(i%10)+'</div></div> ';
+	h += '<div class="display" id="display'+i+'"><div class="letter">'+(i%10)+'</div></div> ';
+	if (i%5==4) h += '<br>';
       }
+      document.getElementById('display').innerHTML += h;
     }
-
     function stacklet(string, count, truncate, mode, wordcount) {
       var letters = string.split('');
       drawlet('', count);
