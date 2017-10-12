@@ -61,7 +61,7 @@
     displayStacklets(0);
     displayStacklets(3);
     setTimeout(signature, timer(counter+5, tick));
-    setTimeout(credits, timer(counter+50, tick));
+    setTimeout(credits, timer(counter+100, tick));
 
     function displayStacklets(mode) {
       for (var j = 0; j < maxlet; j++) {
@@ -132,7 +132,7 @@
     }
     function credits() {
       document.getElementById('display').innerHTML +=
-        '<p class="signature credits">Credits:<br>Inspiration: the <a href="https://en.wikipedia.org/wiki/PLATO_(computer_system)">PLATO</a> system allowed the creation of smileys by <a href="https://twitter.com/chordbug/status/905772498796646400">superimposing characters</a>. <br>The font is <a href="https://fonts.google.com/specimen/Press+Start+2P">Press Start 2P</a>, an Open Font.</p>';
+        '<p class="signature credits">Credits:<br>Inspiration: the <a href="https://en.wikipedia.org/wiki/PLATO_(computer_system)">PLATO</a> system allowed the creation of smileys by <a href="https://twitter.com/chordbug/status/905772498796646400">superimposing characters</a>. <br>The font is <a href="https://fonts.google.com/specimen/Press+Start+2P">Press Start 2P</a>, an Open Font. Partly developed on iOS using <a href="https://workingcopyapp.com/">Working Copy</a>. <a href="https://github.com/kaicarver/hbd/blob/master/stacklet2.html">Source code on Github.</a></p>';
     }
   </script>
 </html>
