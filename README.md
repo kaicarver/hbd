@@ -57,3 +57,6 @@ https://cdn.rawgit.com/kaicarver/hbd/master/celia/2016/hbd.html
 
 Léonore 8 septembre
 https://rawgit.com/kaicarver/hbd/master/stacklet.html
+
+Celia 12 octobre
+https://rawgit.com/kaicarver/hbd/master/stacklet2.html
