@@ -44,7 +44,7 @@
     var wordcount = 0;
     var counter = 0;
     var initialdelay = 1000;
-    var tick = 250;
+    var tick = 150;
     var colors = ['red', 'blue', 'green', 'yellow'];
     var words = [ 'HAPPY', 'BIRTH*DAY*', 'CELIA', '2017!' ];
     var totlet = 0;
@@ -55,16 +55,11 @@
 	maxlet = words[i].length;
       }
     }
-    for (var i = 0; i < totlet; i++) {
-      document.getElementById('display').innerHTML +=
-	'<div class="display" id="display'+i+'"><div class="letter">'+(i%10)+'</div></div> ';
-    }
+    displayLets();
+    counter += 20;
     //displayStacklets(2);
-    counter += 40;
     displayStacklets(1);
-    counter += 40;
     displayStacklets(0);
-    counter += 40;
     displayStacklets(3);
     setTimeout(signature, timer(counter+30, tick));
     setTimeout(credits, timer(counter+80, tick));
@@ -79,7 +74,15 @@
 	  }
 	}
       }
+      counter += 40;
     }
+    function displayLets(mode) {
+      for (var i = 0; i < totlet; i++) {
+        document.getElementById('display').innerHTML +=
+	      '<div class="display" id="display'+i+'"><div class="letter">'+(i%10)+'</div></div> ';
+      }
+    }
+
     function stacklet(string, count, truncate, mode, wordcount) {
       var letters = string.split('');
       drawlet('', count);
@@ -125,7 +128,7 @@
     }
     function signature() {
       document.getElementById('display').innerHTML +=
-	'<p class="signature">Bananiversaire Celia!! Mes raisins les plus sincères. --Kai</p>';
+	'<p class="signature">Bananiversaire Celia!! Mes vieux les plus sincères. --Kai</p>';
     }
     function credits() {
       document.getElementById('display').innerHTML +=
