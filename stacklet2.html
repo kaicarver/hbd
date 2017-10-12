@@ -1,37 +1,38 @@
 <html>
   <head>
+    <title>Celia Happy Birthday 2017</title>
     <style>
       body { margin-left: 5em; margin-right: 22em; margin-top: 3em;}
       .display {
-      position: relative;
-      padding: 3.5em;
-      display: inline;
-      width: 5em;
-      height: 5em;
-      line-height: 7em;
+          position: relative;
+          padding: 3.5em;
+          display: inline;
+          width: 5em;
+          height: 5em;
+          line-height: 7em;
       }
       .letter {
-	  font-family: 'Press Start 2P', cursive;
-	  font-size: 8em;
-	  position: absolute;
-	  left: 10px;
-	  top: 10px;
+          font-family: 'Press Start 2P', cursive;
+          font-size: 8em;
+          position: absolute;
+          left: 10px;
+          top: 10px;
       }
       .signature {
-	  font-style: italic;
-	  animation: 1s ease 0s normal forwards 1 fadein;
-	  text-align: right;
-	  margin-right: 2em;
+          font-style: italic;
+          animation: 1s ease 0s normal forwards 1 fadein;
+          text-align: right;
+          margin-right: 2em;
       }
       @keyframes fadein{
-	  0% { opacity:0; }
-	  100% { opacity:1; }
+          0% { opacity:0; }
+          100% { opacity:1; }
       }
       .credits {
-	  font-style: normal;
-	  font-size: 0.6em;
-	  text-align: left;
-	  margin-left: 2em;
+          font-style: normal;
+          font-size: 0.6em;
+          text-align: left;
+          margin-left: 2em;
       }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
@@ -52,7 +53,7 @@
     for (var i = 0; i < words.length; i++) {
       totlet += words[i].length;
       if (maxlet < words[i].length) {
-	maxlet = words[i].length;
+        maxlet = words[i].length;
       }
     }
     displayLets();
@@ -66,21 +67,21 @@
 
     function displayStacklets(mode) {
       for (var j = 0; j < maxlet; j++) {
-	var displaycount = -1-j;
-	for (var i = 0; i < words.length; i++) {
-	  displaycount += words[i].length;
-	  if (j < words[i].length) {
-	    stacklet(words[i], displaycount, j, mode, i);
-	  }
-	}
+        var displaycount = -1-j;
+        for (var i = 0; i < words.length; i++) {
+          displaycount += words[i].length;
+          if (j < words[i].length) {
+            stacklet(words[i], displaycount, j, mode, i);
+          }
+        }
       }
       counter += 40;
     }
     function displayLets(mode) {
       var h = ''
       for (var i = 0; i < totlet; i++) {
-	h += '<div class="display" id="display'+i+'"><div class="letter">'+(i%10)+'</div></div> ';
-	if (i%5==4) h += '<br>';
+        h += '<div class="display" id="display'+i+'"><div class="letter">'+(i%10)+'</div></div> ';
+        if (i%5==4) h += '<br>';
       }
       document.getElementById('display').innerHTML += h;
     }
@@ -88,34 +89,34 @@
       var letters = string.split('');
       drawlet('', count);
       for (var i = 0; i < letters.length - truncate; i++) {
-	var letcount = i;
-	if (mode == 0) {
-	  letcount = i;
-	} else if (mode == 1) {
-	  letcount = counter;
-	} else if (mode == 2) {
-	  letcount = letters.length - truncate;
-	} else if (mode == 3) {
-	  letcount = letters.length - truncate + i + ((count%2) ? 2: 0) + (wordcount==1?4:0)+ (wordcount==2?5:0);
-	} else {
-	  letcount = 0;
-	}
-	drawlet(letters[i], count, letcount);
-	//drawlet(letters[i], wordcount, counter);
+        var letcount = i;
+        if (mode == 0) {
+          letcount = i;
+        } else if (mode == 1) {
+          letcount = counter;
+        } else if (mode == 2) {
+          letcount = letters.length - truncate;
+        } else if (mode == 3) {
+          letcount = letters.length - truncate + i + ((count%2) ? 2: 0) + (wordcount==1?4:0)+ (wordcount==2?5:0);
+        } else {
+          letcount = 0;
+        }
+        drawlet(letters[i], count, letcount);
+        //drawlet(letters[i], wordcount, counter);
       }
       wordcount++;
     }
     function drawlet(let, wordcount, letcount) {
       setTimeout(function() {
-	var display = 'display' + wordcount;
-	//console.log(wordcount, letcount, display);
-	var d = document.getElementById(display);
-	if (let === '') {
-	  d.innerHTML = '';
-	} else {
-	  var style = 'style="color: ' + getcolor(letcount) + '"';
-	  d.innerHTML += '<div class="letter" ' + style + '>'+let+'</div> ';
-	}
+        var display = 'display' + wordcount;
+        //console.log(wordcount, letcount, display);
+        var d = document.getElementById(display);
+        if (let === '') {
+          d.innerHTML = '';
+        } else {
+          var style = 'style="color: ' + getcolor(letcount) + '"';
+          d.innerHTML += '<div class="letter" ' + style + '>'+let+'</div> ';
+        }
       }, timer(counter, tick));
       counter++;
     }
@@ -129,11 +130,11 @@
     }
     function signature() {
       document.getElementById('display').innerHTML +=
-	'<p class="signature">Bananiversaire Celia!! Mes vieux les plus sincères. --Kai</p>';
+        '<p class="signature">Bananiversaire Celia!! Mes vieux les plus sincères. --Kai</p>';
     }
     function credits() {
       document.getElementById('display').innerHTML +=
-	'<p class="signature credits">Credits:<br>Inspiration: the <a href="https://en.wikipedia.org/wiki/PLATO_(computer_system)">PLATO</a> system allowed the creation of smileys by <a href="https://twitter.com/chordbug/status/905772498796646400">superimposing characters</a>. <br>The font is <a href="https://fonts.google.com/specimen/Press+Start+2P">Press Start 2P</a>, an Open Font.</p>';
+        '<p class="signature credits">Credits:<br>Inspiration: the <a href="https://en.wikipedia.org/wiki/PLATO_(computer_system)">PLATO</a> system allowed the creation of smileys by <a href="https://twitter.com/chordbug/status/905772498796646400">superimposing characters</a>. <br>The font is <a href="https://fonts.google.com/specimen/Press+Start+2P">Press Start 2P</a>, an Open Font.</p>';
     }
   </script>
 </html>
