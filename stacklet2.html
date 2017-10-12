@@ -19,6 +19,7 @@
           top: 0px;
       }
       .signature {
+          font-size: 4vmin;
           font-style: italic;
           animation: 1s ease 0s normal forwards 1 fadein;
           text-align: center;
@@ -29,7 +30,7 @@
       }
       .credits {
           font-style: normal;
-          font-size: 0.6em;
+          font-size: 3vmin;
           text-align: center;
       }
     </style>
@@ -71,14 +72,15 @@
           if (j < words[i].length) {
             stacklet(words[i], displaycount, j, mode, i);
           }
-        }
+	}
       }
       counter += 40;
     }
     function displayLets(mode) {
       var h = ''
       for (var i = 0; i < totlet; i++) {
-        h += '<div class="display" id="display'+i+'"><div class="letter">'+(i%10)+'</div></div> ';
+	var letter = i < 10 ? (i%10) : i < 19 ? 8-(i%10) : ((i+2)%10);
+        h += '<div class="display" id="display'+i+'"><div class="letter">'+letter+'</div></div> ';
         if (i%5==4) h += '<br>';
       }
       document.getElementById('display').innerHTML += h;
@@ -108,12 +110,13 @@
       setTimeout(function() {
         var display = 'display' + wordcount;
         //console.log(wordcount, letcount, display);
-        var d = document.getElementById(display);
+	var d = document.getElementById(display);
+	var style = 'style="color: ' + getcolor(letcount) + '"';
+	var letterHTML = '<div class="letter" ' + style + '>'+let+'</div> ';
         if (let === '') {
-          d.innerHTML = '';
+	  d.innerHTML = letterHTML; // start afresh
         } else {
-          var style = 'style="color: ' + getcolor(letcount) + '"';
-          d.innerHTML += '<div class="letter" ' + style + '>'+let+'</div> ';
+	  d.innerHTML += letterHTML; // stack on top of other letters
         }
       }, timer(counter, tick));
       counter++;
@@ -132,7 +135,7 @@
     }
     function credits() {
       document.getElementById('display').innerHTML +=
-        '<p class="signature credits">Credits:<br>Inspiration: the <a href="https://en.wikipedia.org/wiki/PLATO_(computer_system)">PLATO</a> system allowed the creation of smileys by <a href="https://twitter.com/chordbug/status/905772498796646400">superimposing characters</a>. <br>The font is <a href="https://fonts.google.com/specimen/Press+Start+2P">Press Start 2P</a>, an Open Font. Partly developed on iOS using <a href="https://workingcopyapp.com/">Working Copy</a>. <a href="https://github.com/kaicarver/hbd/blob/master/stacklet2.html">Source code on Github.</a></p>';
+        '<p class="signature credits">Credits:<br>Inspiration: the <a href="https://en.wikipedia.org/wiki/PLATO_(computer_system)">PLATO</a> system allowed the creation of smileys by <a href="https://twitter.com/chordbug/status/905772498796646400">superimposing characters</a>. <br>The font is <a href="https://fonts.google.com/specimen/Press+Start+2P">Press Start 2P</a>, an Open Font. <br>Partly developed on iOS using <a href="https://workingcopyapp.com/">Working Copy</a>. <br><a href="https://github.com/kaicarver/hbd/blob/master/stacklet2.html">Source code on Github.</a></p>';
     }
   </script>
 </html>
