@@ -60,3 +60,8 @@ https://rawgit.com/kaicarver/hbd/master/stacklet.html
 
 Celia 12 octobre
 https://rawgit.com/kaicarver/hbd/master/stacklet2.html
+
+Ideas:
+
+https://codepen.io/kaicarver/pen/eeWxGP
+
