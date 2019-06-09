@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <!--
+	  Display a birthday message hidden in any text.
+	  BUGS:
+	  msg=Q
+	  msg=QQ
+	  msg=QQQ
+	-->
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <title>Astrid Happy Birthday 2019</title>
+    <style>
+	body { text-align: center; margin: 10vmin; }
+	#display {
+		font-size: 2vmin;
+	}
+	.highlight {
+		background-color: yellow;
+		font-size: 3vmin;
+	}
+	.signature {
+		font-size: 4vmin;
+		font-style: italic;
+		animation: 1s ease 0s normal forwards 1 fadein;
+		text-align: center;
+	}
+	@keyframes fadein{
+		0% { opacity:0; }
+		100% { opacity:1; }
+	}
+	.credits {
+		font-style: normal;
+		font-size: 2vmin;
+		text-align: center;
+	}
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  </head>
+  <body>
+    <div id="display">Zongzi ([tsʊ̂ŋ.tsɨ]; Chinese: 粽子) is a traditional Chinese rice dish made of glutinous rice stuffed with different fillings and wrapped in bamboo leaves, generally of the species Indocalamus tessellatus, sometimes, with reed leaves, or other large flat leaves. They are cooked by steaming or boiling. In the Western world, they are also known as rice dumplings or sticky rice dumplings.
+
+As it diffused to other regions of Asia over many centuries, zongzi became known by various names in different languages and cultures, including Pya Htote in Burmese-speaking areas (such as Myanmar), Nom Chang in Cambodia, Bachang in Indonesia and Khanom Chang in Laos and Ba-chang in Thailand.
+
+Vietnamese cuisine also has a variation on this dish known as Bánh ú tro or Bánh tro.[citation needed]
+
+In Singapore, Indonesia, Taiwan, and Malaysia, zongzi is known as bakcang, bacang, or zang (from Hokkien Chinese: 肉粽; Pe̍h-ōe-jī: bah-chàng), as Hokkien is commonly used among overseas Chinese. Similarly, zongzi is more popularly known as machang among Chinese Filipinos in the Philippines.
+
+In some areas of the United States, particularly California and Texas, zongzi is often known as Chinese tamales.
+
+Zongzi (sticky rice dumplings) are traditionally eaten during the Duanwu Festival (Dragon Boat Festival), which falls on the fifth day of the fifth month of the lunar calendar (approximately late-May to mid-June).
+
+A popular belief amongst the Chinese of eating zongzi involved commemorating the death of Qu Yuan, a famous Chinese poet from the kingdom of Chu who lived during the Warring States period. Known for his patriotism, Qu Yuan tried unsuccessfully to warn his king and countrymen against the expansionism of their Qin neighbors. When the Qin general Pai Chi took Yingtu, the Chu capital, in 278 BC, Qu Yuan's grief was so intense that he drowned himself in the Miluo River after penning the Lament for Ying. According to legend, packets of rice were thrown into the river to prevent the fish from eating the poet's body.
+
+Although they may have originally been a seasonal food, zongzi are available year-round in most major cities with a significant Chinese population.
+
+The shapes of zongzi vary, and range from being approximately tetrahedral in southern China to an elongated cone in northern China. Wrapping zongzi neatly is a skill that is passed down through families, as are the recipes. Making zongzi is traditionally a family event of which everyone helps out.
+
+While traditional zongzi are wrapped in bamboo leaves, the leaves of lotus, reed, maize, banana, canna, shell ginger and pandan sometimes are used as substitutes in other countries. Each kind of leaf imparts its own unique aroma and flavor to the rice.
+
+The fillings used for zongzi vary from region to region, but the rice used is almost always glutinous rice (also called "sticky rice" or "sweet rice"). Depending on the region, the rice may be lightly precooked by stir-frying or soaked in water before using. In the north, fillings are mostly red bean paste and tapioca or taro. Northern style zongzi tend to be sweet and dessert-like. Southern-style zongzi, however, tend to be more savory or salty. Fillings of Southern-style zongzi include salted duck egg, pork belly, taro, shredded pork or chicken, Chinese sausage, pork fat, and shiitake mushrooms.
+
+Zongzi need to be steamed or boiled for several hours depending on how the rice is prepared prior to being added, along with the fillings. However, as the modes of zongzi styles have traveled and become mixed, today one can find all kinds of zongzi at traditional markets, and their types are not confined to which side of the Yellow River they originated from.</div>
+  </body>
+  <script>
+    var tick = 50;
+    var counter;
+
+	counter = 10;
+    setTimeout(findMessage, timer(counter, tick));
+	setTimeout(signature, timer(counter, tick));
+	counter += 50;
+    setTimeout(credits, timer(counter, tick));
+
+	// highlight a pattern in a text
+	// returns the modified text and the position past the modification
+	function highlightPattern(pat, text, position) {
+	  var pos = text.indexOf(pat, position);
+	  if (position >= 0) {
+		replacePat = '<span class="highlight">' + pat.toUpperCase() + '</span>';
+		offset = pos + pat.length;
+		newOffset = pos + replacePat.length;
+		text = text.substring(0, pos) +
+		  replacePat +
+		  text.substring(offset, text.length);
+		// go to next word
+		newOffset = text.indexOf(' ', newOffset);
+	  }
+	  return [text, newOffset];
+	}
+	// highlights a series of letters in a text, in different words
+	function findMessage() {
+	  html = document.getElementById('display').innerHTML;
+	  var position = 0;
+	  var message = new URL(location).searchParams.get("msg")
+		  || "Happy birthday Astrid";
+	  //var message = "What do you think Anita";
+	  //var message = "Jesus is our savior";
+	  var letters = message.toLowerCase().replace(/ /g, '').split('');
+	  for (const letter of letters) {
+		[html, position] = highlightPattern(letter, html, position);
+	  }
+	  if (position > 0) {
+		html = html.substring(0, position);
+	  }
+	  document.getElementById('display').innerHTML = html;
+	}
+    function timer(counter, tick) {
+      //console.log(counter, 2000 + (counter * (1 / (counter + 1))) * tick + counter * tick/5);
+      //return initialdelay + (counter * (1 / (counter + 1))) * tick + + counter * tick/5;
+      return counter * tick;
+	}
+	function numberWithCommas(x) {
+	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	function signature() {
+	  ageMinutes = Math.round((new Date() - new Date('June 13, 1967 12:00:00'))/(60*1000));
+      document.getElementById('display').innerHTML +=
+		'<p class="signature">Happy ' + numberWithCommas(ageMinutes) + 'th birthminute Astrid! --Kai, June 13, 2019</p>' + '<p id="credits" class="signature credits"></p>';
+    }
+    function credits() {
+      document.getElementById('credits').innerHTML +=
+        '<a href="https://github.com/kaicarver/hbd/blob/master/hbda2019.html">Source code on Github.</a>';
+    }
+  </script>
+</html>

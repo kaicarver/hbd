@@ -61,6 +61,15 @@ https://rawgit.com/kaicarver/hbd/master/stacklet.html
 Celia 12 octobre
 https://rawgit.com/kaicarver/hbd/master/stacklet2.html
 
+2019:
+
+Diane May 18
+https://codepen.io/kaicarver/full/ZNyrXV
+
+Astrid June 13
+https://rawgit.com/kaicarver/hbd/master/hbda2019.html
+
+
 Ideas:
 
 https://codepen.io/kaicarver/pen/eeWxGP
