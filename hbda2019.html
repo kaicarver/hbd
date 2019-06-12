@@ -10,7 +10,7 @@
         let change text (based on copy/paste, or any URL)
 		different colors for different words
 		animation, slow reveal
-		at end eliminate words that don't have matching letters
+		at end eliminate words that do not have matching letters
 		sound
 	-->
   <head>
@@ -19,13 +19,15 @@
     <style>
 	body { text-align: center; margin: 10vmin; margin-top: 5vmin; }
 	#display {
-		font-size: 2vmin;
+		font-size: calc(16px + 1vmax);
 		margin: 5vmin;
 	}
-	.highlight {
-		background-color: yellow;
-		font-size: 3vmin;
+	.word0, .word1, .word2, .word3  {
+		font-size: calc(24px + 1vmax);
 	}
+	.word0 { background-color: yellow; }
+	.word1 { background-color: lightgreen; }
+	.word2 { background-color: pink; }
 	.example {
 		display: none;
 	}
@@ -68,7 +70,7 @@
 	
 	// highlight a pattern in a text
 	// returns the modified text and the position past the modification
-	function highlightPattern(pat, text, position) {
+	function highlightPattern(pat, text, position, wordno) {
 	  let newOffset = position;
 	  let newText = text;
 	  if (position >= 0) {
@@ -77,7 +79,9 @@
 		let pos = (pos2 < 0 || pos1 >=0 && pos1 < pos2) ? pos1 : pos2;
 		newOffset = pos;
 		if (pos >= 0) {
-		  let replacePat = '<span class="highlight">' + pat.toUpperCase() + '</span>';
+		  let replacePat = '<span class="word' + (wordno % 3) + '">' + pat.toUpperCase() + '</span>';
+		  if (pat === ' ')
+			replacePat = pat; // don't highlight a space, but move ahead one word anyway
 		  let offset = pos + pat.length;
 		  newOffset = pos + replacePat.length;
 		  newText = text.substring(0, pos) +
@@ -89,7 +93,6 @@
 	  }
 	  return [newText, newOffset];
 	}
-	// highlights a series of letters in a text, in different words
 	function resetText() {
 	  document.getElementById('display').innerHTML = document.getElementById('display').innerText;
 	}
@@ -105,15 +108,21 @@
 	  var texts = document.getElementsByClassName("example");
 	  document.getElementById('display').innerHTML = texts[setText.counter % texts.length].innerText;
 	}
+	// highlights a series of letters in a text, in different words
 	function findMessage() {
 	  setText();
 	  let html = document.getElementById('display').innerText;
 	  let position = 0;
 	  let message = new URL(location).searchParams.get("msg")
 		  || "Happy birthday Astrid";
-	  let letters = message.toLowerCase().replace(/ /g, '').split('');
+	  let letters = message.toLowerCase().split('');
+	  let wordno = 0;
 	  for (const letter of letters) {
-		[html, position] = highlightPattern(letter, html, position);
+		if (letter === ' ') {
+		  wordno++;
+		  //continue;
+		}
+		[html, position] = highlightPattern(letter, html, position, wordno);
 	  }
 	  if (position > 0) {
 		html = html.substring(0, position);
