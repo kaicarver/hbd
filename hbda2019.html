@@ -3,23 +3,33 @@
   <!--
 	  Display a birthday message hidden in any text.
 	  BUGS:
-	  msg=Q
-	  msg=QQ
-	  msg=QQQ
+	  TODO:
+        add Share button
+        have a More button with extra features
+        let change message
+        let change text (based on copy/paste, or any URL)
+		different colors for different words
+		animation, slow reveal
+		at end eliminate words that don't have matching letters
+		sound
 	-->
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   <title>Astrid Happy Birthday 2019</title>
     <style>
-	body { text-align: center; margin: 10vmin; }
+	body { text-align: center; margin: 10vmin; margin-top: 5vmin; }
 	#display {
 		font-size: 2vmin;
+		margin: 5vmin;
 	}
 	.highlight {
 		background-color: yellow;
 		font-size: 3vmin;
 	}
-	.signature {
+	.example {
+		display: none;
+	}
+	#signature {
 		font-size: 4vmin;
 		font-style: italic;
 		animation: 1s ease 0s normal forwards 1 fadein;
@@ -29,7 +39,7 @@
 		0% { opacity:0; }
 		100% { opacity:1; }
 	}
-	.credits {
+	#credits {
 		font-style: normal;
 		font-size: 2vmin;
 		text-align: center;
@@ -38,7 +48,104 @@
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   </head>
   <body>
-    <div id="display">Zongzi ([tsʊ̂ŋ.tsɨ]; Chinese: 粽子) is a traditional Chinese rice dish made of glutinous rice stuffed with different fillings and wrapped in bamboo leaves, generally of the species Indocalamus tessellatus, sometimes, with reed leaves, or other large flat leaves. They are cooked by steaming or boiling. In the Western world, they are also known as rice dumplings or sticky rice dumplings.
+  <script>
+	"use strict";
+	window.onload = initLoad;
+	var textModified = false;
+	function initLoad() {
+	  let tick = 50;
+	  let counter = 10;
+	  setTimeout(findMessage, timer(counter, tick));
+	  setTimeout(signature, timer(counter, tick));
+	  counter += 50;
+	  setTimeout(credits, timer(counter, tick));
+	  document.getElementById('again').onclick = findMessage;
+	  document.getElementById('display')
+		.addEventListener("input", function() { textModified = true; console.log("input event fired"); }, false);
+	  document.getElementById('display')
+		.addEventListener("click", function() { document.execCommand('selectAll'); console.log("click event fired"); }, false);
+	}
+	
+	// highlight a pattern in a text
+	// returns the modified text and the position past the modification
+	function highlightPattern(pat, text, position) {
+	  let newOffset = position;
+	  let newText = text;
+	  if (position >= 0) {
+		let pos1 = text.indexOf(pat.toLowerCase(), position);
+		let pos2 = text.indexOf(pat.toUpperCase(), position);
+		let pos = (pos2 < 0 || pos1 >=0 && pos1 < pos2) ? pos1 : pos2;
+		newOffset = pos;
+		if (pos >= 0) {
+		  let replacePat = '<span class="highlight">' + pat.toUpperCase() + '</span>';
+		  let offset = pos + pat.length;
+		  newOffset = pos + replacePat.length;
+		  newText = text.substring(0, pos) +
+			replacePat +
+			text.substring(offset, text.length);
+		  // go to next word
+		  newOffset = newText.indexOf(' ', newOffset);
+		}
+	  }
+	  return [newText, newOffset];
+	}
+	// highlights a series of letters in a text, in different words
+	function resetText() {
+	  document.getElementById('display').innerHTML = document.getElementById('display').innerText;
+	}
+	function setText() {
+	  if (textModified) {
+		textModified = false;
+		return;
+	  }
+	  if (!('counter' in setText))
+		setText.counter = 0;
+	  else
+		setText.counter++;
+	  var texts = document.getElementsByClassName("example");
+	  document.getElementById('display').innerHTML = texts[setText.counter % texts.length].innerText;
+	}
+	function findMessage() {
+	  setText();
+	  let html = document.getElementById('display').innerText;
+	  let position = 0;
+	  let message = new URL(location).searchParams.get("msg")
+		  || "Happy birthday Astrid";
+	  let letters = message.toLowerCase().replace(/ /g, '').split('');
+	  for (const letter of letters) {
+		[html, position] = highlightPattern(letter, html, position);
+	  }
+	  if (position > 0) {
+		html = html.substring(0, position);
+	  }
+	  document.getElementById('display').innerHTML = html;
+	}
+    function timer(counter, tick) {
+      //console.log(counter, 2000 + (counter * (1 / (counter + 1))) * tick + counter * tick/5);
+      //return initialdelay + (counter * (1 / (counter + 1))) * tick + + counter * tick/5;
+      return counter * tick;
+	}
+	function numberWithCommas(x) {
+	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	function signature() {
+	  let ageMinutes = Math.round((new Date() - new Date('June 13, 1967 12:00:00'))/(60*1000));
+      document.getElementById('signature').innerHTML +=
+		'Happy ' + numberWithCommas(ageMinutes) + 'th birthminute Astrid!<br>--Kai, June 13, 2019';
+    }
+    function credits() {
+      document.getElementById('credits').innerHTML +=
+        '<a href="https://github.com/kaicarver/hbd/blob/master/hbda2019.html">Source code on Github.</a>';
+    }
+  </script>
+  <div>
+	<button id="again">HBD</button>
+  </div>
+  <div id="display" contenteditable="true"></div>
+  <div id="signature"></div>
+  <div id="credits"></div>
+  <div class="example">
+Zongzi ([tsʊ̂ŋ.tsɨ]; Chinese: 粽子) is a traditional Chinese rice dish made of glutinous rice stuffed with different fillings and wrapped in bamboo leaves, generally of the species Indocalamus tessellatus, sometimes, with reed leaves, or other large flat leaves. They are cooked by steaming or boiling. In the Western world, they are also known as rice dumplings or sticky rice dumplings.
 
 As it diffused to other regions of Asia over many centuries, zongzi became known by various names in different languages and cultures, including Pya Htote in Burmese-speaking areas (such as Myanmar), Nom Chang in Cambodia, Bachang in Indonesia and Khanom Chang in Laos and Ba-chang in Thailand.
 
@@ -60,67 +167,37 @@ While traditional zongzi are wrapped in bamboo leaves, the leaves of lotus, reed
 
 The fillings used for zongzi vary from region to region, but the rice used is almost always glutinous rice (also called "sticky rice" or "sweet rice"). Depending on the region, the rice may be lightly precooked by stir-frying or soaked in water before using. In the north, fillings are mostly red bean paste and tapioca or taro. Northern style zongzi tend to be sweet and dessert-like. Southern-style zongzi, however, tend to be more savory or salty. Fillings of Southern-style zongzi include salted duck egg, pork belly, taro, shredded pork or chicken, Chinese sausage, pork fat, and shiitake mushrooms.
 
-Zongzi need to be steamed or boiled for several hours depending on how the rice is prepared prior to being added, along with the fillings. However, as the modes of zongzi styles have traveled and become mixed, today one can find all kinds of zongzi at traditional markets, and their types are not confined to which side of the Yellow River they originated from.</div>
+Zongzi need to be steamed or boiled for several hours depending on how the rice is prepared prior to being added, along with the fillings. However, as the modes of zongzi styles have traveled and become mixed, today one can find all kinds of zongzi at traditional markets, and their types are not confined to which side of the Yellow River they originated from.
+  </div>
+  <div class="example">
+When, in the course of human events, it becomes necessary for one people to dissolve the political bonds which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the laws of nature and of nature's God entitle them, a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation.
+
+We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable rights, that among these are life, liberty and the pursuit of happiness. That to secure these rights, governments are instituted among men, deriving their just powers from the consent of the governed. That whenever any form of government becomes destructive to these ends, it is the right of the people to alter or to abolish it, and to institute new government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their safety and happiness. Prudence, indeed, will dictate that governments long established should not be changed for light and transient causes; and accordingly all experience hath shown that mankind are more disposed to suffer, while evils are sufferable, than to right themselves by abolishing the forms to which they are accustomed. But when a long train of abuses and usurpations, pursuing invariably the same object evinces a design to reduce them under absolute despotism, it is their right, it is their duty, to throw off such government, and to provide new guards for their future security. --
+  </div>
+  <div class="example">
+Two roads diverged in a yellow wood,
+And sorry I could not travel both
+And be one traveler, long I stood
+And looked down one as far as I could
+To where it bent in the undergrowth;
+
+Then took the other, as just as fair,
+And having perhaps the better claim,
+Because it was grassy and wanted wear;
+Though as for that the passing there
+Had worn them really about the same,
+
+And both that morning equally lay
+In leaves no step had trodden black.
+Oh, I kept the first for another day!
+Yet knowing how way leads on to way,
+I doubted if I should ever come back.
+
+I shall be telling this with a sigh
+Somewhere ages and ages hence:
+Two roads diverged in a wood, and I—
+I took the one less traveled by,
+And that has made all the difference.
+  </div>
   </body>
-  <script>
-    var tick = 50;
-    var counter;
-
-	counter = 10;
-    setTimeout(findMessage, timer(counter, tick));
-	setTimeout(signature, timer(counter, tick));
-	counter += 50;
-    setTimeout(credits, timer(counter, tick));
-
-	// highlight a pattern in a text
-	// returns the modified text and the position past the modification
-	function highlightPattern(pat, text, position) {
-	  var pos = text.indexOf(pat, position);
-	  if (position >= 0) {
-		replacePat = '<span class="highlight">' + pat.toUpperCase() + '</span>';
-		offset = pos + pat.length;
-		newOffset = pos + replacePat.length;
-		text = text.substring(0, pos) +
-		  replacePat +
-		  text.substring(offset, text.length);
-		// go to next word
-		newOffset = text.indexOf(' ', newOffset);
-	  }
-	  return [text, newOffset];
-	}
-	// highlights a series of letters in a text, in different words
-	function findMessage() {
-	  html = document.getElementById('display').innerHTML;
-	  var position = 0;
-	  var message = new URL(location).searchParams.get("msg")
-		  || "Happy birthday Astrid";
-	  //var message = "What do you think Anita";
-	  //var message = "Jesus is our savior";
-	  var letters = message.toLowerCase().replace(/ /g, '').split('');
-	  for (const letter of letters) {
-		[html, position] = highlightPattern(letter, html, position);
-	  }
-	  if (position > 0) {
-		html = html.substring(0, position);
-	  }
-	  document.getElementById('display').innerHTML = html;
-	}
-    function timer(counter, tick) {
-      //console.log(counter, 2000 + (counter * (1 / (counter + 1))) * tick + counter * tick/5);
-      //return initialdelay + (counter * (1 / (counter + 1))) * tick + + counter * tick/5;
-      return counter * tick;
-	}
-	function numberWithCommas(x) {
-	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
-	function signature() {
-	  ageMinutes = Math.round((new Date() - new Date('June 13, 1967 12:00:00'))/(60*1000));
-      document.getElementById('display').innerHTML +=
-		'<p class="signature">Happy ' + numberWithCommas(ageMinutes) + 'th birthminute Astrid! --Kai, June 13, 2019</p>' + '<p id="credits" class="signature credits"></p>';
-    }
-    function credits() {
-      document.getElementById('credits').innerHTML +=
-        '<a href="https://github.com/kaicarver/hbd/blob/master/hbda2019.html">Source code on Github.</a>';
-    }
-  </script>
 </html>
