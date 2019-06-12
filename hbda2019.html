@@ -3,27 +3,31 @@
   <!--
 	  Display a birthday message hidden in any text.
 	  BUGS:
+	    should not allow word wrap inside a word with a highlight
 	  TODO:
         add Share button
         have a More button with extra features
         let change message
         let change text (based on copy/paste, or any URL)
-		different colors for different words
 		animation, slow reveal
-		at end eliminate words that do not have matching letters
 		sound
+		at end eliminate words that do not have matching letters
 	-->
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   <title>Astrid Happy Birthday 2019</title>
     <style>
-	body { text-align: center; margin: 10vmin; margin-top: 5vmin; }
+	body { text-align: center; margin: 10vmin; margin-top: 5vmin; font-size: calc(16px + 1vmax); }
 	#display {
-		font-size: calc(16px + 1vmax);
+		font-size: calc(14px + 1vmax);
 		margin: 5vmin;
 	}
 	.word0, .word1, .word2, .word3  {
 		font-size: calc(24px + 1vmax);
+		display: inline-block;
+		width: calc(24px + 1vmax);
+		line-height: 90%;
+		white-space: nowrap;
 	}
 	.word0 { background-color: yellow; }
 	.word1 { background-color: lightgreen; }
@@ -42,6 +46,7 @@
 		100% { opacity:1; }
 	}
 	#credits {
+		margin-top: 2vmin;
 		font-style: normal;
 		font-size: 2vmin;
 		text-align: center;
@@ -56,8 +61,12 @@
 	var textModified = false;
 	function initLoad() {
 	  let tick = 50;
-	  let counter = 10;
+	  let counter = 0;
+	  setText();
+	  counter += 50;
+	  textModified = true; // don't rotate text choice this time 
 	  setTimeout(findMessage, timer(counter, tick));
+	  counter += 50;
 	  setTimeout(signature, timer(counter, tick));
 	  counter += 50;
 	  setTimeout(credits, timer(counter, tick));
@@ -123,9 +132,7 @@
 		  //continue;
 		}
 		[html, position] = highlightPattern(letter, html, position, wordno);
-	  }
-	  if (position > 0) {
-		html = html.substring(0, position);
+		document.getElementById('display').innerHTML = html;
 	  }
 	  document.getElementById('display').innerHTML = html;
 	}
@@ -156,32 +163,14 @@
   <div class="example">
 Zongzi ([tsʊ̂ŋ.tsɨ]; Chinese: 粽子) is a traditional Chinese rice dish made of glutinous rice stuffed with different fillings and wrapped in bamboo leaves, generally of the species Indocalamus tessellatus, sometimes, with reed leaves, or other large flat leaves. They are cooked by steaming or boiling. In the Western world, they are also known as rice dumplings or sticky rice dumplings.
 
-As it diffused to other regions of Asia over many centuries, zongzi became known by various names in different languages and cultures, including Pya Htote in Burmese-speaking areas (such as Myanmar), Nom Chang in Cambodia, Bachang in Indonesia and Khanom Chang in Laos and Ba-chang in Thailand.
-
-Vietnamese cuisine also has a variation on this dish known as Bánh ú tro or Bánh tro.[citation needed]
+As it diffused to other regions of Asia over many centuries, zongzi became known by various names in different languages and cultures, including Pya Htote in Burmese-speaking areas (such as Myanmar), Nom Chang in Cambodia, Bachang in Indonesia, Khanom Chang in Laos, and Ba-chang in Thailand.
 
 In Singapore, Indonesia, Taiwan, and Malaysia, zongzi is known as bakcang, bacang, or zang (from Hokkien Chinese: 肉粽; Pe̍h-ōe-jī: bah-chàng), as Hokkien is commonly used among overseas Chinese. Similarly, zongzi is more popularly known as machang among Chinese Filipinos in the Philippines.
-
-In some areas of the United States, particularly California and Texas, zongzi is often known as Chinese tamales.
-
-Zongzi (sticky rice dumplings) are traditionally eaten during the Duanwu Festival (Dragon Boat Festival), which falls on the fifth day of the fifth month of the lunar calendar (approximately late-May to mid-June).
-
-A popular belief amongst the Chinese of eating zongzi involved commemorating the death of Qu Yuan, a famous Chinese poet from the kingdom of Chu who lived during the Warring States period. Known for his patriotism, Qu Yuan tried unsuccessfully to warn his king and countrymen against the expansionism of their Qin neighbors. When the Qin general Pai Chi took Yingtu, the Chu capital, in 278 BC, Qu Yuan's grief was so intense that he drowned himself in the Miluo River after penning the Lament for Ying. According to legend, packets of rice were thrown into the river to prevent the fish from eating the poet's body.
-
-Although they may have originally been a seasonal food, zongzi are available year-round in most major cities with a significant Chinese population.
-
-The shapes of zongzi vary, and range from being approximately tetrahedral in southern China to an elongated cone in northern China. Wrapping zongzi neatly is a skill that is passed down through families, as are the recipes. Making zongzi is traditionally a family event of which everyone helps out.
-
-While traditional zongzi are wrapped in bamboo leaves, the leaves of lotus, reed, maize, banana, canna, shell ginger and pandan sometimes are used as substitutes in other countries. Each kind of leaf imparts its own unique aroma and flavor to the rice.
-
-The fillings used for zongzi vary from region to region, but the rice used is almost always glutinous rice (also called "sticky rice" or "sweet rice"). Depending on the region, the rice may be lightly precooked by stir-frying or soaked in water before using. In the north, fillings are mostly red bean paste and tapioca or taro. Northern style zongzi tend to be sweet and dessert-like. Southern-style zongzi, however, tend to be more savory or salty. Fillings of Southern-style zongzi include salted duck egg, pork belly, taro, shredded pork or chicken, Chinese sausage, pork fat, and shiitake mushrooms.
-
-Zongzi need to be steamed or boiled for several hours depending on how the rice is prepared prior to being added, along with the fillings. However, as the modes of zongzi styles have traveled and become mixed, today one can find all kinds of zongzi at traditional markets, and their types are not confined to which side of the Yellow River they originated from.
   </div>
   <div class="example">
 When, in the course of human events, it becomes necessary for one people to dissolve the political bonds which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the laws of nature and of nature's God entitle them, a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation.
 
-We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable rights, that among these are life, liberty and the pursuit of happiness. That to secure these rights, governments are instituted among men, deriving their just powers from the consent of the governed. That whenever any form of government becomes destructive to these ends, it is the right of the people to alter or to abolish it, and to institute new government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their safety and happiness. Prudence, indeed, will dictate that governments long established should not be changed for light and transient causes; and accordingly all experience hath shown that mankind are more disposed to suffer, while evils are sufferable, than to right themselves by abolishing the forms to which they are accustomed. But when a long train of abuses and usurpations, pursuing invariably the same object evinces a design to reduce them under absolute despotism, it is their right, it is their duty, to throw off such government, and to provide new guards for their future security. --
+We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable rights, that among these are life, liberty and the pursuit of happiness. That to secure these rights, governments are instituted among men, deriving their just powers from the consent of the governed. 
   </div>
   <div class="example">
 Two roads diverged in a yellow wood,
