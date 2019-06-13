@@ -121,12 +121,8 @@
 	// highlights a series of letters in a text, in different words
 	function findMessage() {
 	  setText();
-	  sequentialRun(100, signature);
-	  sequentialRun(50, credits);
+	  sequentialRun(0, () => {}); // noop to restart animation at 0
 	  let html = document.getElementById('display').innerText;
-	  console.log(`${html}`);
-	  html = html.replace(/\&nbsp;/g, ' ');
-	  console.log(`${html}`);
 	  let position = 0;
 	  let message = new URL(location).searchParams.get("msg")
 		  || "Happy birthday Astrid";
@@ -134,20 +130,21 @@
 	  let wordno = 0;
 	  for (const letter of letters) {
 		if (letter === ' ') {
-		  wordno++;
-		  //continue;
+		  wordno++; // this changes colors between words
 		}
 		[html, position] = highlightPattern(letter, html, position, wordno);
-		document.getElementById('display').innerHTML = html;
+		sequentialRun(5, function(html) { document.getElementById('display').innerHTML = html; console.log(html)}, html);
 	  }
-	  document.getElementById('display').innerHTML = html;
+	  sequentialRun(50, signature);
+	  sequentialRun(50, credits);
 	}
-	function sequentialRun(delay, func) {
+	function sequentialRun(delay, func, arg) {
 	  let tick = 50;
-	  if (!('timestamp' in sequentialRun))
+	  if (!('timestamp' in sequentialRun) || delay === 0)
 		sequentialRun.timestamp = 0;
 	  sequentialRun.timestamp += timer(delay, tick);
-	  setTimeout(func, sequentialRun.timestamp);
+	  console.log("sequentialRun: timestamp=", sequentialRun.timestamp);
+	  setTimeout(func, sequentialRun.timestamp, arg);
 	}
     function timer(counter, tick) {
       return counter * tick;
@@ -172,9 +169,6 @@
   <div id="display" contenteditable="true"></div>
   <div id="signature"></div>
   <div id="credits"></div>
-  <div class="example">
-  Happy 27,349,700th birthminute Astrid! --Kai, June 13, 2019
-  </div>
   <div class="example">
 Zongzi ([tsʊ̂ŋ.tsɨ]; Chinese: 粽子) is a traditional Chinese rice dish made of glutinous rice stuffed with different fillings and wrapped in bamboo leaves, generally of the species Indocalamus tessellatus, sometimes, with reed leaves, or other large flat leaves. They are cooked by steaming or boiling. In the Western world, they are also known as rice dumplings or sticky rice dumplings.
 
