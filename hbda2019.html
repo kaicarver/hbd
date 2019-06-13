@@ -133,12 +133,20 @@
 	  var texts = document.getElementsByClassName("example");
 	  document.getElementById('display').innerHTML = texts[setText.counter % texts.length].innerText;
 	}
+	function disableButton() {
+	  document.getElementById('again').disabled = true;
+	  document.getElementById('again').innerText = 'Searching...';
+	}
+	function enableButton() {
+	  document.getElementById('again').disabled = false;
+	  document.getElementById('again').innerText = 'Click Me';
+	}
 	// highlights a series of letters in a text, in different words
 	function findMessage() {
 	  setText();
 	  playSound();
-	  sequentialRun(0, () => {}); // noop to restart animation at 0
-	  sequentialRun(30, () => {}); // pause a little before animation
+	  sequentialRun(0, disableButton); // restart animation at 0 and disable button
+	  sequentialRun(30, () => {}); // noop to pause a little before animation
 	  let html = document.getElementById('display').innerText;
 	  let position = 0;
 	  let message = new URL(location).searchParams.get("msg")
@@ -160,6 +168,7 @@
 		  }
 		}, html);
 	  }
+	  sequentialRun(5, enableButton);
 	  sequentialRun(50, signature);
 	  sequentialRun(50, credits);
 	}
