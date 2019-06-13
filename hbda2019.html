@@ -22,12 +22,20 @@
 		font-size: calc(14px + 1vmax);
 		margin: 5vmin;
 	}
-	.word0, .word1, .word2, .word3  {
+	button {
+		font-size: calc(14px + 1vmax);
+	}
+	.highlight {
 		font-size: calc(24px + 1vmax);
 		display: inline-block;
 		width: calc(24px + 1vmax);
 		line-height: 90%;
 		white-space: nowrap;
+	}
+	.highlight2 {
+		display: inline-block;
+		padding-left: 0.5vmax;
+		padding-right: 0.5vmax;
 	}
 	.word0 { background-color: yellow; }
 	.word1 { background-color: lightgreen; }
@@ -62,7 +70,7 @@
 	function initLoad() {
 	  setText();
 	  textModified = true; // don't rotate text choice this time
-	  sequentialRun(50, findMessage);
+	  sequentialRun(100, findMessage);
 	  sequentialRun(50, signature);
 	  sequentialRun(50, credits);
 	  document.getElementById('again').onclick = findMessage;
@@ -83,7 +91,7 @@
 		let pos = (pos2 < 0 || pos1 >=0 && pos1 < pos2) ? pos1 : pos2;
 		newOffset = pos;
 		if (pos >= 0) {
-		  let replacePat = '<span class="word' + (wordno % 3) + '">' + pat.toUpperCase() + '</span>';
+		  let replacePat = '<span class="word' + (wordno % 3) + ' highlight">' + pat.toUpperCase() + '</span>';
 		  if (pat === ' ')
 			replacePat = pat; // don't highlight a space, but move ahead one word anyway
 		  let offset = pos + pat.length;
@@ -135,8 +143,7 @@
 	  let tick = 50;
 	  if (!('timestamp' in sequentialRun))
 		sequentialRun.timestamp = 0;
-	  else
-		sequentialRun.timestamp += timer(delay, tick);
+	  sequentialRun.timestamp += timer(delay, tick);
 	  setTimeout(func, sequentialRun.timestamp);
 	}
     function timer(counter, tick) {
@@ -147,16 +154,17 @@
 	}
 	function signature() {
 	  let ageMinutes = Math.round((new Date() - new Date('June 13, 1967 12:00:00'))/(60*1000));
-      document.getElementById('signature').innerHTML +=
-		'Happy ' + numberWithCommas(ageMinutes) + 'th birthminute Astrid!<br>--Kai, June 13, 2019';
+      document.getElementById('signature').innerHTML =
+		'<span class="highlight2 word0">Happy</span> ' + numberWithCommas(ageMinutes) +
+		'th <span class="highlight2 word1">birthminute</span> <span class="highlight2 word2">Astrid</span>!<br>--Kai, June 13, 2019';
     }
     function credits() {
-      document.getElementById('credits').innerHTML +=
+      document.getElementById('credits').innerHTML =
         '<a href="https://github.com/kaicarver/hbd/blob/master/hbda2019.html">Source code on Github.</a>';
     }
   </script>
   <div>
-	<button id="again">HBD</button>
+	<button id="again">Click Me</button>
   </div>
   <div id="display" contenteditable="true"></div>
   <div id="signature"></div>
