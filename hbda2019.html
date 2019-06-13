@@ -68,6 +68,7 @@
 	"use strict";
 	window.onload = initLoad;
 	var textModified = false;
+	var audio = new Audio('tick.mp3');
 	function initLoad() {
 	  setText();
 	  textModified = true; // don't rotate text choice this time
@@ -121,6 +122,7 @@
 	// highlights a series of letters in a text, in different words
 	function findMessage() {
 	  setText();
+	  audio.play();
 	  sequentialRun(0, () => {}); // noop to restart animation at 0
 	  let html = document.getElementById('display').innerText;
 	  let position = 0;
