@@ -67,7 +67,7 @@ Diane May 18
 https://codepen.io/kaicarver/full/ZNyrXV
 
 Astrid June 13
-https://rawgit.com/kaicarver/hbd/master/hbda2019.html
+https://rawcdn.githack.com/kaicarver/hbd/v43/hbda2019.html
 
 
 Ideas:
