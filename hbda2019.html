@@ -68,7 +68,7 @@
 	  function loadSound () {
 		if (!createjs.Sound.initializeDefaultPlugins()) { return; }
 		createjs.Sound.registerSound("tick.mp3", soundID);
-		//createjs.Sound.volume = 0.25;
+		createjs.Sound.volume = 0.25;
 		soundLoaded = true;
       }
       function playSound () {
@@ -83,7 +83,6 @@
 	"use strict";
 	window.onload = initLoad;
 	var textModified = false;
-	//var audio = new Audio('tick.mp3');
 	function initLoad() {
 	  setText();
 	  textModified = true; // don't rotate text choice this time
@@ -136,7 +135,7 @@
 	}
 	function disableButton() {
 	  document.getElementById('again').disabled = true;
-	  document.getElementById('again').innerText = 'birthday calculation...';
+	  document.getElementById('again').innerText = 'reading...';
 	}
 	function enableButton() {
 	  document.getElementById('again').disabled = false;
@@ -145,7 +144,6 @@
 	// highlights a series of letters in a text, in different words
 	function findMessage() {
 	  setText();
-	  playSound();
 	  sequentialRun(0, disableButton); // restart animation at 0 and disable button
 	  sequentialRun(30, () => {}); // noop to pause a little before animation
 	  let html = document.getElementById('display').innerText;
@@ -163,7 +161,6 @@
 		[html, position] = highlightPattern(letter, html, position, wordno);
 		sequentialRun(delay, function(html) {
 		  if (document.getElementById('display').innerHTML != html) {
-			//audio.play();
 			playSound();
 			document.getElementById('display').innerHTML = html;
 		  }
@@ -187,7 +184,6 @@
 	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 	function signature() {
-	  playSound();
 	  let ageMinutes = Math.round((new Date() - new Date('June 13, 1967 12:00:00'))/(60*1000));
       document.getElementById('signature').innerHTML =
 		'<span class="highlight2 word0">Happy</span> ' + numberWithCommas(ageMinutes) +
@@ -200,7 +196,6 @@
   </script>
   <div>
 	<button id="again">Click Me</button>
-	<button id="test" onclick="playSound()">Test</button>
   </div>
   <div id="display" contenteditable="true"></div>
   <div id="signature"></div>
