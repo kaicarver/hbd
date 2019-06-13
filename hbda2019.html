@@ -60,14 +60,26 @@
 	}
     </style>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+	<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+      var soundID = "tick";
+      function loadSound () {
+		createjs.Sound.registerSound("tick.mp3", soundID);
+		createjs.Sound.volume = 0.25;
+      }
+      function playSound () {
+        createjs.Sound.play(soundID);
+      }
+    </script>
   </head>
   <body>
   <script>
 	"use strict";
 	window.onload = initLoad;
 	var textModified = false;
-	var audio = new Audio('tick.mp3');
+	//var audio = new Audio('tick.mp3');
 	function initLoad() {
+	  loadSound();
 	  setText();
 	  textModified = true; // don't rotate text choice this time
 	  document.getElementById('again').onclick = findMessage;
@@ -134,7 +146,8 @@
 		[html, position] = highlightPattern(letter, html, position, wordno);
 		sequentialRun(10, function(html) {
 		  if (document.getElementById('display').innerHTML != html) {
-			audio.play();
+			//audio.play();
+			playSound();
 			document.getElementById('display').innerHTML = html;
 		  }
 		}, html);
@@ -147,7 +160,6 @@
 	  if (!('timestamp' in sequentialRun) || delay === 0)
 		sequentialRun.timestamp = 0;
 	  sequentialRun.timestamp += timer(delay, tick);
-	  console.log("sequentialRun: timestamp=", sequentialRun.timestamp);
 	  setTimeout(func, sequentialRun.timestamp, arg);
 	}
     function timer(counter, tick) {
@@ -157,6 +169,7 @@
 	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 	function signature() {
+	  playSound();
 	  let ageMinutes = Math.round((new Date() - new Date('June 13, 1967 12:00:00'))/(60*1000));
       document.getElementById('signature').innerHTML =
 		'<span class="highlight2 word0">Happy</span> ' + numberWithCommas(ageMinutes) +
