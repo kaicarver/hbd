@@ -4,6 +4,7 @@
 	  Display a birthday message hidden in any text.
 	  BUGS:
 	    should not allow word wrap inside a word with a highlight
+		strange: copy paste signature into the text to be highlit, only highlights H
 	  TODO:
         add Share button
         have a More button with extra features
@@ -70,14 +71,11 @@
 	function initLoad() {
 	  setText();
 	  textModified = true; // don't rotate text choice this time
-	  sequentialRun(100, findMessage);
-	  sequentialRun(50, signature);
-	  sequentialRun(50, credits);
 	  document.getElementById('again').onclick = findMessage;
 	  document.getElementById('display')
-		.addEventListener("input", function() { textModified = true; console.log("input event fired"); }, false);
+		.addEventListener("input", function() { textModified = true; }, false);
 	  document.getElementById('display')
-		.addEventListener("click", function() { document.execCommand('selectAll'); console.log("click event fired"); }, false);
+		.addEventListener("click", function() { document.execCommand('selectAll'); }, false);
 	}
 	
 	// highlight a pattern in a text
@@ -123,7 +121,12 @@
 	// highlights a series of letters in a text, in different words
 	function findMessage() {
 	  setText();
+	  sequentialRun(100, signature);
+	  sequentialRun(50, credits);
 	  let html = document.getElementById('display').innerText;
+	  console.log(`${html}`);
+	  html = html.replace(/\&nbsp;/g, ' ');
+	  console.log(`${html}`);
 	  let position = 0;
 	  let message = new URL(location).searchParams.get("msg")
 		  || "Happy birthday Astrid";
@@ -169,6 +172,9 @@
   <div id="display" contenteditable="true"></div>
   <div id="signature"></div>
   <div id="credits"></div>
+  <div class="example">
+  Happy 27,349,700th birthminute Astrid! --Kai, June 13, 2019
+  </div>
   <div class="example">
 Zongzi ([tsʊ̂ŋ.tsɨ]; Chinese: 粽子) is a traditional Chinese rice dish made of glutinous rice stuffed with different fillings and wrapped in bamboo leaves, generally of the species Indocalamus tessellatus, sometimes, with reed leaves, or other large flat leaves. They are cooked by steaming or boiling. In the Western world, they are also known as rice dumplings or sticky rice dumplings.
 
