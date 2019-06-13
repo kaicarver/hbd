@@ -66,6 +66,7 @@
 	  var soundID = "tick";
 	  var soundLoaded = false;
 	  function loadSound () {
+		if (!createjs.Sound.initializeDefaultPlugins()) { return; }
 		createjs.Sound.registerSound("tick.mp3", soundID);
 		//createjs.Sound.volume = 0.25;
 		soundLoaded = true;
@@ -135,7 +136,7 @@
 	}
 	function disableButton() {
 	  document.getElementById('again').disabled = true;
-	  document.getElementById('again').innerText = 'Searching...';
+	  document.getElementById('again').innerText = 'birthday calculation...';
 	}
 	function enableButton() {
 	  document.getElementById('again').disabled = false;
@@ -154,7 +155,7 @@
 	  let letters = message.toLowerCase().split('');
 	  let wordno = 0;
 	  for (const letter of letters) {
-		let delay = 10;
+		let delay = 5;
 		if (letter === ' ') {
 		  wordno++; // this changes colors between words
 		  delay = 20;
