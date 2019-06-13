@@ -17,7 +17,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   <title>Astrid Happy Birthday 2019</title>
     <style>
-	body { text-align: center; margin: 10vmin; margin-top: 5vmin; font-size: calc(16px + 1vmax); }
+	body { text-align: center; margin: 10vmin; margin-top: 5vmin; margin-bottom: 5vmin; font-size: calc(16px + 1vmax); }
 	#display {
 		font-size: calc(14px + 1vmax);
 		margin: 5vmin;
@@ -60,16 +60,11 @@
 	window.onload = initLoad;
 	var textModified = false;
 	function initLoad() {
-	  let tick = 50;
-	  let counter = 0;
 	  setText();
-	  counter += 50;
-	  textModified = true; // don't rotate text choice this time 
-	  setTimeout(findMessage, timer(counter, tick));
-	  counter += 50;
-	  setTimeout(signature, timer(counter, tick));
-	  counter += 50;
-	  setTimeout(credits, timer(counter, tick));
+	  textModified = true; // don't rotate text choice this time
+	  sequentialRun(50, findMessage);
+	  sequentialRun(50, signature);
+	  sequentialRun(50, credits);
 	  document.getElementById('again').onclick = findMessage;
 	  document.getElementById('display')
 		.addEventListener("input", function() { textModified = true; console.log("input event fired"); }, false);
@@ -136,9 +131,15 @@
 	  }
 	  document.getElementById('display').innerHTML = html;
 	}
+	function sequentialRun(delay, func) {
+	  let tick = 50;
+	  if (!('timestamp' in sequentialRun))
+		sequentialRun.timestamp = 0;
+	  else
+		sequentialRun.timestamp += timer(delay, tick);
+	  setTimeout(func, sequentialRun.timestamp);
+	}
     function timer(counter, tick) {
-      //console.log(counter, 2000 + (counter * (1 / (counter + 1))) * tick + counter * tick/5);
-      //return initialdelay + (counter * (1 / (counter + 1))) * tick + + counter * tick/5;
       return counter * tick;
 	}
 	function numberWithCommas(x) {
