@@ -86,7 +86,7 @@
 	function initLoad() {
 	  setText();
 	  textModified = true; // don't rotate text choice this time
-	  document.getElementById('again').onclick = findMessage;
+	  document.getElementById('again').onclick = initButton;
 	  document.getElementById('display')
 		.addEventListener("input", function() { textModified = true; }, false);
 	  document.getElementById('display')
@@ -133,13 +133,18 @@
 	  var texts = document.getElementsByClassName("example");
 	  document.getElementById('display').innerHTML = texts[setText.counter % texts.length].innerText;
 	}
+	function initButton() {
+	  playSound();
+	  document.getElementById('again').onclick = findMessage;
+	  document.getElementById('again').innerText = 'Click Me Again';
+	}
 	function disableButton() {
 	  document.getElementById('again').disabled = true;
 	  document.getElementById('again').innerText = 'reading...';
 	}
 	function enableButton() {
 	  document.getElementById('again').disabled = false;
-	  document.getElementById('again').innerText = 'Click Me';
+	  document.getElementById('again').innerText = 'Click Me Again';
 	}
 	// highlights a series of letters in a text, in different words
 	function findMessage() {
