@@ -63,12 +63,16 @@
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 	<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
     <script>
-      var soundID = "tick";
-      function loadSound () {
+	  var soundID = "tick";
+	  var soundLoaded = false;
+	  function loadSound () {
 		createjs.Sound.registerSound("tick.mp3", soundID);
-		createjs.Sound.volume = 0.25;
+		//createjs.Sound.volume = 0.25;
+		soundLoaded = true;
       }
       function playSound () {
+		if (!soundLoaded)
+		  loadSound();
         createjs.Sound.play(soundID);
       }
     </script>
@@ -80,7 +84,6 @@
 	var textModified = false;
 	//var audio = new Audio('tick.mp3');
 	function initLoad() {
-	  loadSound();
 	  setText();
 	  textModified = true; // don't rotate text choice this time
 	  document.getElementById('again').onclick = findMessage;
