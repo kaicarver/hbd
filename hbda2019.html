@@ -1,198 +1,204 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <!--
-	  Display a birthday message hidden in any text.
-	  BUGS:
-	    should not allow word wrap inside a word with a highlight
-		strange: copy paste signature into the text to be highlit, only highlights H
-	  TODO:
-		sound
-		enough sounds for birthday song...
-		bring highlit letter into focus, scrolling auto so you dont miss anything
+      Display a birthday message hidden in any text.
+      BUGS:
+        should not allow word wrap inside a word with a highlight
+        strange: copy paste signature into the text to be highlit, only highlights H
+      TODO:
+        sound
+        enough sounds for birthday song...
+        bring highlit letter into focus, scrolling auto so you dont miss anything
         add Share button
         have a More button with extra features
-		at end eliminate words that do not have matching letters
-	-->
+        at end eliminate words that do not have matching letters
+    -->
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   <title>Astrid Happy Birthday 2019</title>
-    <style>
-	body { text-align: center; margin: 10vmin; margin-top: 5vmin; margin-bottom: 5vmin; font-size: calc(16px + 1vmax); }
-	#display {
-		font-size: calc(14px + 1vmax);
-		margin: 5vmin;
-	}
-	button {
-		font-size: calc(14px + 1vmax);
-	}
-	.highlight {
-		font-size: calc(24px + 1vmax);
-		display: inline-block;
-		width: calc(24px + 1vmax);
-		line-height: 90%;
-		white-space: nowrap;
-	}
-	.highlight2 {
-		display: inline-block;
-		padding-left: 0.5vmax;
-		padding-right: 0.5vmax;
-	}
-	.word0 { background-color: yellow; }
-	.word1 { background-color: lightgreen; }
-	.word2 { background-color: pink; }
-	.example {
-		display: none;
-	}
-	#signature {
-		font-size: 4vmin;
-		font-style: italic;
-		animation: 1s ease 0s normal forwards 1 fadein;
-		text-align: center;
-	}
-	@keyframes fadein{
-		0% { opacity:0; }
-		100% { opacity:1; }
-	}
-	#credits {
-		margin-top: 2vmin;
-		font-style: normal;
-		font-size: 2vmin;
-		text-align: center;
-	}
-    </style>
-    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-	<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
-    <script>
-	  var soundID = "tick";
-	  var soundLoaded = false;
-	  function loadSound () {
-		if (!createjs.Sound.initializeDefaultPlugins()) { return; }
-		createjs.Sound.registerSound("tick.mp3", soundID);
-		createjs.Sound.volume = 0.25;
-		soundLoaded = true;
-      }
-      function playSound () {
-		if (!soundLoaded)
-		  loadSound();
-        createjs.Sound.play(soundID);
-      }
-    </script>
-  </head>
-  <body>
+  <style>
+    body {
+        text-align: center;
+        margin: 10vmin;
+        margin-top: 5vmin;
+        margin-bottom: 5vmin;
+        font-size: calc(16px + 1vmax);
+    }
+    #display {
+        font-size: calc(14px + 1vmax);
+        margin: 5vmin;
+    }
+    button {
+        font-size: calc(14px + 1vmax);
+    }
+    .highlight {
+        font-size: calc(24px + 1vmax);
+        display: inline-block;
+        width: calc(24px + 1vmax);
+        line-height: 90%;
+        white-space: nowrap;
+    }
+    .highlight2 {
+        display: inline-block;
+        padding-left: 0.5vmax;
+        padding-right: 0.5vmax;
+    }
+    .word0 { background-color: yellow; }
+    .word1 { background-color: lightgreen; }
+    .word2 { background-color: pink; }
+    .example {
+        display: none;
+    }
+    #signature {
+        font-size: 4vmin;
+        font-style: italic;
+        animation: 1s ease 0s normal forwards 1 fadein;
+        text-align: center;
+    }
+    @keyframes fadein{
+        0% { opacity:0; }
+        100% { opacity:1; }
+    }
+    #credits {
+        margin-top: 2vmin;
+        font-style: normal;
+        font-size: 2vmin;
+        text-align: center;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
   <script>
-	"use strict";
-	window.onload = initLoad;
-	var textModified = false;
-	function initLoad() {
-	  setText();
-	  textModified = true; // don't rotate text choice this time
-	  document.getElementById('again').onclick = initButton;
-	  document.getElementById('display')
-		.addEventListener("input", function() { textModified = true; }, false);
-	  document.getElementById('display')
-		.addEventListener("click", function() { document.execCommand('selectAll'); }, false);
-	}
-	
-	// highlight a pattern in a text
-	// returns the modified text and the position past the modification
-	function highlightPattern(pat, text, position, wordno) {
-	  let newOffset = position;
-	  let newText = text;
-	  if (position >= 0) {
-		let pos1 = text.indexOf(pat.toLowerCase(), position);
-		let pos2 = text.indexOf(pat.toUpperCase(), position);
-		let pos = (pos2 < 0 || pos1 >=0 && pos1 < pos2) ? pos1 : pos2;
-		newOffset = pos;
-		if (pos >= 0) {
-		  let replacePat = '<span class="word' + (wordno % 3) + ' highlight">' + pat.toUpperCase() + '</span>';
-		  if (pat === ' ')
-			replacePat = pat; // don't highlight a space, but move ahead one word anyway
-		  let offset = pos + pat.length;
-		  newOffset = pos + replacePat.length;
-		  newText = text.substring(0, pos) +
-			replacePat +
-			text.substring(offset, text.length);
-		  // go to next word
-		  newOffset = newText.indexOf(' ', newOffset);
-		}
-	  }
-	  return [newText, newOffset];
-	}
-	function resetText() {
-	  document.getElementById('display').innerHTML = document.getElementById('display').innerText;
-	}
-	function setText() {
-	  if (textModified) {
-		textModified = false;
-		return;
-	  }
-	  if (!('counter' in setText))
-		setText.counter = 0;
-	  else
-		setText.counter++;
-	  var texts = document.getElementsByClassName("example");
-	  document.getElementById('display').innerHTML = texts[setText.counter % texts.length].innerText;
-	}
-	function initButton() {
-	  playSound();
-	  document.getElementById('again').onclick = findMessage;
-	  document.getElementById('again').innerText = 'Click Me Again';
-	}
-	function disableButton() {
-	  document.getElementById('again').disabled = true;
-	  document.getElementById('again').innerText = 'reading...';
-	}
-	function enableButton() {
-	  document.getElementById('again').disabled = false;
-	  document.getElementById('again').innerText = 'Click Me Again';
-	}
-	// highlights a series of letters in a text, in different words
-	function findMessage() {
-	  setText();
-	  sequentialRun(0, disableButton); // restart animation at 0 and disable button
-	  sequentialRun(30, () => {}); // noop to pause a little before animation
-	  let html = document.getElementById('display').innerText;
-	  let position = 0;
-	  let message = new URL(location).searchParams.get("msg")
-		  || "Happy birthday Astrid";
-	  let letters = message.toLowerCase().split('');
-	  let wordno = 0;
-	  for (const letter of letters) {
-		let delay = 5;
-		if (letter === ' ') {
-		  wordno++; // this changes colors between words
-		  delay = 20;
-		}
-		[html, position] = highlightPattern(letter, html, position, wordno);
-		sequentialRun(delay, function(html) {
-		  if (document.getElementById('display').innerHTML != html) {
-			playSound();
-			document.getElementById('display').innerHTML = html;
-		  }
-		}, html);
-	  }
-	  sequentialRun(5, enableButton);
-	  sequentialRun(50, signature);
-	  sequentialRun(50, credits);
-	}
-	function sequentialRun(delay, func, arg) {
-	  let tick = 50;
-	  if (!('timestamp' in sequentialRun) || delay === 0)
-		sequentialRun.timestamp = 0;
-	  sequentialRun.timestamp += timer(delay, tick);
-	  setTimeout(func, sequentialRun.timestamp, arg);
-	}
+  	var soundID = "tick";
+	var soundLoaded = false;
+    function loadSound () {
+      if (!createjs.Sound.initializeDefaultPlugins()) { return; }
+      createjs.Sound.registerSound("tick.mp3", soundID);
+      createjs.Sound.volume = 0.25;
+      soundLoaded = true;
+    }
+    function playSound () {
+      if (!soundLoaded)
+        loadSound();
+      createjs.Sound.play(soundID);
+    }
+  </script>
+</head>
+<body>
+  <script>
+    "use strict";
+    window.onload = initLoad;
+    var textModified = false;
+    function initLoad() {
+      setText();
+      textModified = true; // don't rotate text choice this time
+      document.getElementById('again').onclick = initButton;
+      document.getElementById('display')
+        .addEventListener("input", function() { textModified = true; }, false);
+      document.getElementById('display')
+        .addEventListener("click", function() { document.execCommand('selectAll'); }, false);
+    }
+    
+    // highlight a pattern in a text
+    // returns the modified text and the position past the modification
+    function highlightPattern(pat, text, position, wordno) {
+      let newOffset = position;
+      let newText = text;
+      if (position >= 0) {
+        let pos1 = text.indexOf(pat.toLowerCase(), position);
+        let pos2 = text.indexOf(pat.toUpperCase(), position);
+        let pos = (pos2 < 0 || pos1 >=0 && pos1 < pos2) ? pos1 : pos2;
+        newOffset = pos;
+        if (pos >= 0) {
+          let replacePat = '<span class="word' + (wordno % 3) + ' highlight">' + pat.toUpperCase() + '</span>';
+          if (pat === ' ')
+            replacePat = pat; // don't highlight a space, but move ahead one word anyway
+          let offset = pos + pat.length;
+          newOffset = pos + replacePat.length;
+          newText = text.substring(0, pos) +
+            replacePat +
+            text.substring(offset, text.length);
+          // go to next word
+          newOffset = newText.indexOf(' ', newOffset);
+        }
+      }
+      return [newText, newOffset];
+    }
+    function resetText() {
+      document.getElementById('display').innerHTML = document.getElementById('display').innerText;
+    }
+    function setText() {
+      if (textModified) {
+        textModified = false;
+        return;
+      }
+      if (!('counter' in setText))
+        setText.counter = 0;
+      else
+        setText.counter++;
+      var texts = document.getElementsByClassName("example");
+      document.getElementById('display').innerHTML = texts[setText.counter % texts.length].innerText;
+    }
+    function initButton() {
+      playSound();
+      document.getElementById('again').onclick = findMessage;
+      document.getElementById('again').innerText = 'Click Me Again';
+    }
+    function disableButton() {
+      document.getElementById('again').disabled = true;
+      document.getElementById('again').innerText = 'reading...';
+    }
+    function enableButton() {
+      document.getElementById('again').disabled = false;
+      document.getElementById('again').innerText = 'Click Me Again';
+    }
+    // highlights a series of letters in a text, in different words
+    function findMessage() {
+      setText();
+      sequentialRun(0, disableButton); // restart animation at 0 and disable button
+      sequentialRun(30, () => {}); // noop to pause a little before animation
+      let html = document.getElementById('display').innerText;
+      let position = 0;
+      let message = new URL(location).searchParams.get("msg")
+          || "Happy birthday Astrid";
+      let letters = message.toLowerCase().split('');
+      let wordno = 0;
+      for (const letter of letters) {
+        let delay = 5;
+        if (letter === ' ') {
+          wordno++; // this changes colors between words
+          delay = 20;
+        }
+        [html, position] = highlightPattern(letter, html, position, wordno);
+        sequentialRun(delay, function(html) {
+          if (document.getElementById('display').innerHTML != html) {
+            playSound();
+            document.getElementById('display').innerHTML = html;
+          }
+        }, html);
+      }
+      sequentialRun(5, enableButton);
+      sequentialRun(50, signature);
+      sequentialRun(50, credits);
+    }
+    function sequentialRun(delay, func, arg) {
+      let tick = 50;
+      if (!('timestamp' in sequentialRun) || delay === 0)
+        sequentialRun.timestamp = 0;
+      sequentialRun.timestamp += timer(delay, tick);
+      setTimeout(func, sequentialRun.timestamp, arg);
+    }
     function timer(counter, tick) {
       return counter * tick;
-	}
-	function numberWithCommas(x) {
-	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
-	function signature() {
-	  let ageMinutes = Math.round((new Date() - new Date('June 13, 1967 12:00:00'))/(60*1000));
+    }
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    function signature() {
+      let ageMinutes = Math.round((new Date() - new Date('June 13, 1967 12:00:00'))/(60*1000));
       document.getElementById('signature').innerHTML =
-		'<span class="highlight2 word0">Happy</span> ' + numberWithCommas(ageMinutes) +
-		'th <span class="highlight2 word1">birthminute</span> <span class="highlight2 word2">Astrid</span>!<br>--Kai, June 13, 2019';
+        '<span class="highlight2 word0">Happy</span> ' + numberWithCommas(ageMinutes) +
+        'th <span class="highlight2 word1">birthminute</span> <span class="highlight2 word2">Astrid</span>!<br>--Kai, June 13, 2019';
     }
     function credits() {
       document.getElementById('credits').innerHTML =
@@ -332,5 +338,5 @@ Um ein Billet sich fast die Hälse bricht.
 Dieß Wunder wirkt auf so verschiedne Leute
 Der Dichter nur; mein Freund, o! thu es heute.
   </div>
-  </body>
+</body>
 </html>
