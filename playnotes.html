@@ -1,0 +1,44 @@
+  <style>
+  body { user-select: none; }
+  </style>
+
+
+<audio id="c4" src="mp3notes/c4.mp3" preload="auto">audio not supported</audio>
+<audio id="d4" src="mp3notes/d4.mp3" preload="auto">audio not supported</audio>
+<audio id="e4" src="mp3notes/e4.mp3" preload="auto">audio not supported</audio>
+<audio id="f4" src="mp3notes/f4.mp3" preload="auto">audio not supported</audio>
+<audio id="g4" src="mp3notes/g4.mp3" preload="auto">audio not supported</audio>
+<audio id="c5" src="mp3notes/c5.mp3" preload="auto">audio not supported</audio>
+
+<span id="c4k">C</span>
+<span id="d4k">D</span>
+<span id="e4k">E</span>
+<span id="f4k">F</span>
+<span id="g4k">G</span>
+<span id="c5k">C5</span>
+
+
+<script>
+
+addNote("c4");
+addNote("d4");
+addNote("e4");
+addNote("f4");
+addNote("g4");
+addNote("c5");
+
+function addNote(note) {
+  let aud = document.getElementById(note);
+  let key = document.getElementById(note + "k");
+  key.addEventListener("click", e => {
+    //aud.play();
+    // try asynchronous
+    setTimeout(() => { console.log("play " + note); aud.play(); }, 0);
+  });
+  key.addEventListener("dblclick", e => {
+    e.preventDefault();
+  });
+  
+}
+</script>
+
