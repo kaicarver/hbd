@@ -74,3 +74,8 @@ Ideas:
 
 https://codepen.io/kaicarver/pen/eeWxGP
 
+
+Should be somewhere else:
+
+Tune a ukulele:
+https://raw.githack.com/kaicarver/hbd/master/playnotes.html
