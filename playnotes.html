@@ -1,44 +1,72 @@
-  <style>
-  body { user-select: none; }
-  </style>
+<html>
+  <head>
+    <title>Tune a ukulele</title>
+    <style>
+      body { user-select: none; }
+    </style>
+  </head>
+  <body>
+    <audio id="a4" src="mp3notes/a4.mp3" preload="auto">audio not supported</audio>
+    <audio id="b4" src="mp3notes/b4.mp3" preload="auto">audio not supported</audio>
+    <audio id="c4" src="mp3notes/c4.mp3" preload="auto">audio not supported</audio>
+    <audio id="d4" src="mp3notes/d4.mp3" preload="auto">audio not supported</audio>
+    <audio id="e4" src="mp3notes/e4.mp3" preload="auto">audio not supported</audio>
+    <audio id="f4" src="mp3notes/f4.mp3" preload="auto">audio not supported</audio>
+    <audio id="g4" src="mp3notes/g4.mp3" preload="auto">audio not supported</audio>
+    <audio id="a5" src="mp3notes/a5.mp3" preload="auto">audio not supported</audio>
+    <audio id="b5" src="mp3notes/b5.mp3" preload="auto">audio not supported</audio>
+    <audio id="c5" src="mp3notes/c5.mp3" preload="auto">audio not supported</audio>
 
+    <div>Tune a ukulele: 
+      <span id="g4k">G4</span>
+      <span id="c4k">C4</span>
+      <span id="e4k">E4</span>
+      <span id="a5k">A5</span>
+      <button id="playseq">Play Sequence</button>
+    </div>  
 
-<audio id="c4" src="mp3notes/c4.mp3" preload="auto">audio not supported</audio>
-<audio id="d4" src="mp3notes/d4.mp3" preload="auto">audio not supported</audio>
-<audio id="e4" src="mp3notes/e4.mp3" preload="auto">audio not supported</audio>
-<audio id="f4" src="mp3notes/f4.mp3" preload="auto">audio not supported</audio>
-<audio id="g4" src="mp3notes/g4.mp3" preload="auto">audio not supported</audio>
-<audio id="c5" src="mp3notes/c5.mp3" preload="auto">audio not supported</audio>
+    <script>
+      // set up 4 clickable notes
+      addNote("c4");
+      addNote("e4");
+      addNote("g4");
+      addNote("a5");
 
-<span id="c4k">C</span>
-<span id="d4k">D</span>
-<span id="e4k">E</span>
-<span id="f4k">F</span>
-<span id="g4k">G</span>
-<span id="c5k">C5</span>
+      // set up and play a sequence of notes
+      let sounds = new Array(new Audio("mp3notes/g4.mp3"),
+			     new Audio("mp3notes/c4.mp3"),
+			     new Audio("mp3notes/e4.mp3"),
+			     new Audio("mp3notes/a5.mp3"),
+			    );
+      let soundIdx = 0;
+      playSequence();
+      document.getElementById('playseq').addEventListener('click', playSequence);
 
+      function playSequence() {
+	  soundIdx = 0;
+	  playSound();
+      }
+      function playSound() {
+	  if (soundIdx == sounds.length) return;
+	  sounds[soundIdx].addEventListener('ended', playSound);
+	  sounds[soundIdx++].play();
+      }
 
-<script>
-
-addNote("c4");
-addNote("d4");
-addNote("e4");
-addNote("f4");
-addNote("g4");
-addNote("c5");
-
-function addNote(note) {
-  let aud = document.getElementById(note);
-  let key = document.getElementById(note + "k");
-  key.addEventListener("click", e => {
-    //aud.play();
-    // try asynchronous
-    setTimeout(() => { console.log("play " + note); aud.play(); }, 0);
-  });
-  key.addEventListener("dblclick", e => {
-    e.preventDefault();
-  });
-  
-}
-</script>
-
+      function addNote(note) {
+	  let aud = document.getElementById(note);
+	  let key = document.getElementById(note + "k");
+	  key.addEventListener("click", e => {
+	      aud.play();
+	      // for playing the same note at the same time need to create a channel mechanism
+	      // I think: as many audio objects of same note as number of channels
+	      // this does not help:
+	      //setTimeout(() => { console.log("play " + note); aud.play(); }, 0);
+	  });
+	  key.addEventListener("dblclick", e => {
+	      e.preventDefault();
+	  });
+	  
+      }
+    </script>
+  </body>
+</html>
