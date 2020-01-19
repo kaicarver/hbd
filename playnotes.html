@@ -2,7 +2,14 @@
   <head>
     <title>Tune a ukulele</title>
     <style>
-      body { user-select: none; }
+      body, button {
+	  font-size: 8vw;
+	  text-align: center;
+      }
+      button {
+	  user-select: none;
+	  touch-action: manipulation; /* Enable panning and pinch zoom gestures, but disable additional non-standard gestures such as double-tap to zoom. */
+      }
     </style>
   </head>
   <body>
@@ -17,12 +24,16 @@
     <audio id="b5" src="mp3notes/b5.mp3" preload="auto">audio not supported</audio>
     <audio id="c5" src="mp3notes/c5.mp3" preload="auto">audio not supported</audio>
 
-    <div>Tune a ukulele: 
-      <span id="g4k">G4</span>
-      <span id="c4k">C4</span>
-      <span id="e4k">E4</span>
-      <span id="a5k">A5</span>
-      <button id="playseq">Play Sequence</button>
+    <div>Tune a ukulele:
+      <p> 
+	<button id="g4k">G4</button>
+	<button id="c4k">C4</button>
+	<button id="e4k">E4</button>
+	<button id="a5k">A5</button>
+      </p>
+      <p>
+	<button id="playseq">Play Sequence</button>
+      </p>
     </div>  
 
     <script>
