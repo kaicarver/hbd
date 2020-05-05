@@ -69,6 +69,13 @@ https://codepen.io/kaicarver/full/ZNyrXV
 Astrid June 13
 https://rawcdn.githack.com/kaicarver/hbd/v43/hbda2019.html
 
+2020
+
+Diane May 18
+idea: Empire of Diane's birthday
+soundtrack: _Diane_ by Chet Baker and Paul Bley
+https://www.youtube.com/watch?v=skSx-ECpzmw
+
 
 Ideas:
 
