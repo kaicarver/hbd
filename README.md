@@ -74,7 +74,7 @@ https://rawcdn.githack.com/kaicarver/hbd/v43/hbda2019.html
 Diane May 18
 idea: Empire of Diane's birthday
 soundtrack: _Diane_ by Chet Baker and Paul Bley
-https://www.youtube.com/watch?v=skSx-ECpzmw
+https://www.youtube.com/watch?v=skSx-ECpzmw&t=1888
 
 
 Ideas:
