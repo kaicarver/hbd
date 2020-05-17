@@ -76,6 +76,21 @@ idea: Empire of Diane's birthday
 soundtrack: _Diane_ by Chet Baker and Paul Bley
 https://www.youtube.com/watch?v=skSx-ECpzmw&t=1888
 
+can maybe use this leaflet implementation of time zones
+
+https://github.com/dj0001/Leaflet.timezones
+
+demo:
+
+https://dj0001.github.io/Leaflet.timezones/
+
+can set styles and opacity per zone here:
+
+https://github.com/dj0001/Leaflet.timezones/blob/master/L.timezones.js
+
+maybe also see
+
+https://github.com/dj0001/Leaflet.Sun
 
 Ideas:
 
