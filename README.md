@@ -92,6 +92,9 @@ maybe also see
 
 https://github.com/dj0001/Leaflet.Sun
 
+Léonore 8 septembre
+https://raw.githack.com/kaicarver/hbd/master/leonore18/leonore18.html
+
 Ideas:
 
 https://codepen.io/kaicarver/pen/eeWxGP
