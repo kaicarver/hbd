@@ -42,6 +42,15 @@
       float: right;
     }
   </style>
+  <script>
+    function shuffle() {
+      array = document.querySelectorAll('img');
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i].src, array[j].src] = [array[j].src, array[i].src];
+      }
+    }
+  </script>
 </head>
 
 <body>
@@ -103,6 +112,10 @@
       </div>
     </div>
   </div>
+  <script>
+    document.querySelectorAll('img').forEach(el => el.addEventListener('click', shuffle));
+  </script>
+
 </body>
 
 </html>
