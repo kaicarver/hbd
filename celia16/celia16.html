@@ -47,6 +47,7 @@
   </style>
   <script>
     function shuffle() {
+      document.getElementById('song').play();
       array = document.querySelectorAll('img');
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -82,10 +83,11 @@
         <a href="https://github.com/kaicarver/hbd/blob/master/celia16/celia16.html" target="_blank">
           source code</a>
       </div>
-      <audio controls>
+      <audio id="song" controls preload="auto">
         <source src="CELIA IS DOPE.ogg" type="audio/ogg">
         <source src="CELIA IS DOPE.mp3" type="audio/mpeg">
-        Your browser does not saupport the audio element.
+        <p>Your browser doesn't support HTML5 audio. Here is
+          a <a href="CELIA IS DOPE.mp3">link to the audio</a> instead.</p>
       </audio>
     </div>
   </div>
