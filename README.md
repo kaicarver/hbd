@@ -95,6 +95,11 @@ https://github.com/dj0001/Leaflet.Sun
 Léonore 8 septembre
 https://raw.githack.com/kaicarver/hbd/master/leonore18/leonore18.html
 
+Celia 16 so late...
+https://raw.githack.com/kaicarver/hbd/master/celia16/celia16.html
+
+2021
+
 Ideas:
 
 https://codepen.io/kaicarver/pen/eeWxGP
