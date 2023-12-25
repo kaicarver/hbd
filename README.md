@@ -109,3 +109,8 @@ Should be somewhere else:
 
 Tune a ukulele:
 https://raw.githack.com/kaicarver/hbd/master/playnotes.html
+
+
+Other:
+
+https://rawgit.com/kaicarver/hbd/master/xmas2023.html
