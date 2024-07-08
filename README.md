@@ -114,3 +114,7 @@ https://raw.githack.com/kaicarver/hbd/master/playnotes.html
 Other:
 
 https://rawgit.com/kaicarver/hbd/master/xmas2023.html
+
+2024
+
+Jed July 8 https://rawgit.com/kaicarver/hbd/master/hbdjec.html
