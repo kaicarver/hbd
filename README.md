@@ -119,4 +119,4 @@ https://rawgit.com/kaicarver/hbd/master/xmas2023.html
 
 Jed July 8 https://rawgit.com/kaicarver/hbd/master/hbdjec.html
 
-丈母娘 mother in law July 8 https://rawgit.com/kaicarver/hbd/master/hbd丈母娘.html
+丈母娘 mother-in-law July 10 https://rawgit.com/kaicarver/hbd/master/hbd丈母娘.html
