@@ -120,3 +120,9 @@ https://rawgit.com/kaicarver/hbd/master/xmas2023.html
 Jed July 8 https://rawgit.com/kaicarver/hbd/master/hbdjec.html
 
 丈母娘 mother-in-law July 10 https://rawgit.com/kaicarver/hbd/master/hbd丈母娘.html
+
+2025
+
+Astrid July 13 https://rawgit.com/kaicarver/hbd/master/HBDA2025.html
+
+
