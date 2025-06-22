@@ -125,4 +125,4 @@ Jed July 8 https://rawgit.com/kaicarver/hbd/master/hbdjec.html
 
 Astrid June 13 https://rawgit.com/kaicarver/hbd/master/HBDA2025.html
 
-Xof June 23  https://rawgit.com/kaicarver/hbd/master/HBDA2025.html
+Xof June 23  https://rawgit.com/kaicarver/hbd/master/HBD7E9XOF.html
