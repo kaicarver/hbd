@@ -123,6 +123,6 @@ Jed July 8 https://rawgit.com/kaicarver/hbd/master/hbdjec.html
 
 2025
 
-Astrid July 13 https://rawgit.com/kaicarver/hbd/master/HBDA2025.html
+Astrid June 13 https://rawgit.com/kaicarver/hbd/master/HBDA2025.html
 
-
+Xof June 23  https://rawgit.com/kaicarver/hbd/master/HBDA2025.html
